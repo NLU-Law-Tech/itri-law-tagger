@@ -4,10 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './assets/bootstrap.min.css'
+import { Provider } from 'react-redux'
+import { createStore,combineReducers } from 'redux'
+import TagReducer from './modules/TagModule/reducer'
 
+let store = createStore(combineReducers({TagReducer}))
+console.log(store)
 ReactDOM.render(
   <React.StrictMode>
+    <Provider store={store}>
     <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

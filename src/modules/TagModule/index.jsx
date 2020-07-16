@@ -52,7 +52,7 @@ export class index extends Component {
                     <button onClick={() => { this.setFontSize(fontSize - 1) }}>-</button>
                 </div>
                 <hr />
-                <button>下一篇(雙擊)</button>
+                <button>下一篇</button>
                 <button>儲存</button>
                 <hr />
                 <TagBlock
