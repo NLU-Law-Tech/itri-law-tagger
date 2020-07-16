@@ -2,63 +2,91 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 export class defendant extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             isAddingNewDefendant: false,
-            currentSelectWord:{},
-            selectNewDefendant:undefined
+            currentSelectWord: {},
+            selectNewDefendants: [],
+            isDelingDefendant: false
         }
     }
 
-    addingNewDefendant = ()=>{
+    delingDefendant = ()=>{
+        let { isDelingDefendant } = this.state
+        this.setState({
+            isDelingDefendant: !isDelingDefendant,
+            isAddingNewDefendant: false
+        })
+    }
+
+    addingNewDefendant = () => {
         let { isAddingNewDefendant } = this.state
         this.setState({
-            isAddingNewDefendant:!isAddingNewDefendant
+            isAddingNewDefendant: !isAddingNewDefendant,
+            isDelingDefendant: false
+        })
+    }
+
+    delDefendant = (selectNewDefendant) => {
+        let { selectNewDefendants } = this.state
+        selectNewDefendants = selectNewDefendants.filter((defendant) => {
+            return defendant !== selectNewDefendant
+        })
+        this.setState({
+            selectNewDefendants
         })
     }
 
 
-    static getDerivedStateFromProps(props, state){
-        let { isAddingNewDefendant,currentSelectWord:stateCurrentSelectWord } = state
-        let { TagReducer={} } = props.state,
-        { currentSelectWord:tagCurrentSelectWord } = TagReducer
-        
-        if(isAddingNewDefendant === true){
-            if(tagCurrentSelectWord !== stateCurrentSelectWord){
-                return Object.assign({},state,{
-                    isAddingNewDefendant:false,
-                    selectNewDefendant:tagCurrentSelectWord.val,
-                    currentSelectWord:tagCurrentSelectWord
+    static getDerivedStateFromProps(props, state) {
+        let { isAddingNewDefendant, currentSelectWord: stateCurrentSelectWord, selectNewDefendants } = state
+        let { TagReducer = {} } = props.state,
+            { currentSelectWord: tagCurrentSelectWord } = TagReducer
+
+        if (isAddingNewDefendant === true) {
+            if (tagCurrentSelectWord !== stateCurrentSelectWord) {
+                selectNewDefendants.push(tagCurrentSelectWord.val)
+                return Object.assign(state, {
+                    isAddingNewDefendant: false,
+                    selectNewDefendants,
+                    currentSelectWord: tagCurrentSelectWord
                 })
             }
         }
 
-        return Object.assign({},state,{
-            currentSelectWord:tagCurrentSelectWord
+        return Object.assign(state, {
+            currentSelectWord: tagCurrentSelectWord
         })
     }
 
     render() {
-        let { isAddingNewDefendant,selectNewDefendant } = this.state
+        let { isAddingNewDefendant, isDelingDefendant, selectNewDefendants } = this.state
         // { val:currentSelectWordVal } = currentSelectWord
         // console.log(currentSelectWordVal)
         return (
             <div className="card">
                 <div className="card-body">
-                    <div className="card-title">被告</div>
+                    <div className="card-title"><b>被告</b></div>
                     <div className="card-text">
-                        <button onClick={this.addingNewDefendant}>新增被告</button>
-                        {isAddingNewDefendant?'拖曳選擇':''}
-                        <br/>
-                        <hr/>
-                        :
-                        {selectNewDefendant}
-
+                        <button onClick={this.addingNewDefendant}>新增被告(A)</button>
+                        <button onClick={this.delingDefendant}>刪除被告</button>
+                        {isAddingNewDefendant ? '拖曳選擇' : undefined}
+                        {isDelingDefendant ? '點選刪除' : undefined}
+                        <br />
                         <hr />
-                        <button>被告A</button>
-                        <button>被告B</button>
-                        <button>被告C</button>
+                        {selectNewDefendants.map((selectNewDefendant) => {
+                            return (
+                                <React.Fragment key={selectNewDefendant}>
+                                    {isDelingDefendant?
+                                    <button className="btn btn-sm btn-danger m-1" onClick={()=>this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                    :
+                                    <button className="btn btn-sm btn-info m-1" onClick={()=>{}}>{selectNewDefendant}</button>
+                                    }
+                                    <br />
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
@@ -66,7 +94,7 @@ export class defendant extends Component {
     }
 }
 
-let mapStateToPtops = (state)=>{
+let mapStateToPtops = (state) => {
     return {
         state
     }
