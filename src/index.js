@@ -5,10 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './assets/bootstrap.min.css'
 import { Provider } from 'react-redux'
-import { createStore,combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import TagReducer from './modules/TagModule/reducer'
+import SideMenuReducer from './modules/SideMenuModule/reducer'
+import logger from 'redux-logger'
 
-let store = createStore(combineReducers({TagReducer}))
+let store = createStore(combineReducers({TagReducer,SideMenuReducer}),applyMiddleware(logger))
 console.log(store)
 ReactDOM.render(
   <React.StrictMode>

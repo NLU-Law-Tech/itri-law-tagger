@@ -1,22 +1,12 @@
 import React, { Component } from 'react'
+import Defendant from './defendant'
 
 export class index extends Component {
     render() {
         return (
             <>
                 <h3>side menu</h3>
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-title">被告</div>
-                        <div className="card-text">
-                            <button>新增被告</button>
-                            <hr />
-                            <button>被告A</button>
-                            <button>被告B</button>
-                            <button>被告C</button>
-                        </div>
-                    </div>
-                </div>
+                <Defendant />
                 <br />
                 <div className="card">
                     <div className="card-body">

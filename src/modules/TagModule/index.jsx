@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
+import { connect } from 'react-redux'
+import { submitTag } from './action'
 
 const TagBlock = styled.pre`
     font-size:${(props) => props.fontSize};
@@ -30,16 +31,35 @@ export class index extends Component {
     }
 
     tagWords = (e) => {
+        let { dispatch } = this.props
         let selection = window.getSelection();
         let selectWord = selection.toString();
         let tag_start = selection.anchorOffset;
         let tag_end = selection.focusOffset - 1;
         let selectTag = {
-            val:selectWord,
+            val: selectWord,
             tag_start,
             tag_end
         }
         console.log(selectTag)
+        dispatch(submitTag(selectTag))
+        this.cleanSelection()
+
+    }
+
+    cleanSelection = () => {
+        if (window.getSelection) {
+            if (window.getSelection().empty) {
+                // Chrome
+                window.getSelection().empty();
+            } else if (window.getSelection().removeAllRanges) {
+                // Firefox
+                window.getSelection().removeAllRanges();
+            }
+        } else if (document.selection) {
+            // IE?
+            document.selection.empty();
+        }
     }
 
     render() {
@@ -67,4 +87,4 @@ export class index extends Component {
     }
 }
 
-export default index
+export default connect()(index)
