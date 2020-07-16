@@ -54,7 +54,7 @@ export class tagInfo extends Component {
 
 
                 console.log(defendantsTagInfo)
-                return { ...defendantsTagInfo }
+                return Object.assign({},defendantsTagInfo)
             }
         }
 
