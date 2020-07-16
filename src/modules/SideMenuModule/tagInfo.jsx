@@ -63,7 +63,9 @@ export class tagInfo extends Component {
         let { tagAction } = this.state
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
-            { currentSelectDefendant = "@@@" } = SideMenuReducer
+            { currentSelectDefendant } = SideMenuReducer
+        
+        console.log(this.props)
 
         return (
             <div className="card">
