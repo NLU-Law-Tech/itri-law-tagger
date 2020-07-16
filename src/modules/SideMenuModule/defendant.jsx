@@ -9,11 +9,12 @@ export class defendant extends Component {
             isAddingNewDefendant: false,
             currentSelectWord: {},
             selectNewDefendants: [],
-            isDelingDefendant: false
+            isDelingDefendant: false,
+            _props: {}
         }
     }
 
-    delingDefendant = ()=>{
+    delingDefendant = () => {
         let { isDelingDefendant } = this.state
         this.setState({
             isDelingDefendant: !isDelingDefendant,
@@ -42,33 +43,45 @@ export class defendant extends Component {
         dispatch(setDefendants(selectNewDefendants))
     }
 
-    setSelectDefendant = (defendant)=>{
+    setSelectDefendant = (defendant) => {
         let { dispatch } = this.props
         dispatch(setCurrentSelectDefendant(defendant))
     }
 
-
     static getDerivedStateFromProps(props, state) {
         let { dispatch } = props
         let { isAddingNewDefendant, currentSelectWord: stateCurrentSelectWord, selectNewDefendants } = state
-        let { TagReducer = {} } = props.state,
-            { currentSelectWord: tagCurrentSelectWord } = TagReducer
-
-        if (isAddingNewDefendant === true) {
-            if (tagCurrentSelectWord !== stateCurrentSelectWord) {
-                selectNewDefendants.push(tagCurrentSelectWord.val)
-                dispatch(setDefendants(selectNewDefendants))
-                return Object.assign(state, {
-                    isAddingNewDefendant: false,
-                    selectNewDefendants,
-                    currentSelectWord: tagCurrentSelectWord
-                })
+        let { TagReducer = {} } = props.state
+        // call by state
+        if (props === state._props) {
+            return {
+                _props: props
             }
         }
+        // call by props
+        else {
+            if (isAddingNewDefendant === true) {
+                if (JSON.stringify(TagReducer.currentSelectWord) !== JSON.stringify(stateCurrentSelectWord)) {
+                    if (!selectNewDefendants.includes(TagReducer.currentSelectWord.val)) {
+                        selectNewDefendants.push(TagReducer.currentSelectWord.val)
+                        dispatch(setDefendants(selectNewDefendants))
+                        console.log(selectNewDefendants)
+                        return {
+                            isAddingNewDefendant: false,
+                            selectNewDefendants: [...selectNewDefendants],
+                            currentSelectWord: TagReducer.currentSelectWord
+                        }
+                    }
+                }
+            }
 
-        return Object.assign(state, {
-            currentSelectWord: tagCurrentSelectWord
-        })
+            return {
+                isAddingNewDefendant: false,
+                currentSelectWord: TagReducer.currentSelectWord,
+                _props: props
+            }
+
+        }
     }
 
     render() {
@@ -88,14 +101,14 @@ export class defendant extends Component {
                         <hr />
                         {selectNewDefendants.map((selectNewDefendant) => {
                             return (
-                                <React.Fragment key={selectNewDefendant}>
-                                    {isDelingDefendant?
-                                    <button className="btn btn-sm btn-danger m-1" onClick={()=>this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
-                                    :
-                                    <button className="btn btn-sm btn-info m-1" onClick={()=>this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                <div key={selectNewDefendant}>
+                                    {isDelingDefendant ?
+                                        <button key={'del'} className="btn btn-sm btn-danger m-1" onClick={() => this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                        :
+                                        <button key={'set'} className="btn btn-sm btn-info m-1" onClick={() => this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
                                     }
                                     <br />
-                                </React.Fragment>
+                                </div>
                             )
                         })}
                     </div>

@@ -8,45 +8,57 @@ export class tagInfo extends Component {
         super(props)
         this.state = {
             currentSelectWord: undefined,
-            defendants:[],
-            defendantsTagInfo:{},
+            defendants: [],
+            defendantsTagInfo: {},
             tagAction: ACTION_TAGS[0]
         }
     }
 
-    static getDerivedStateFromProps(props, state){
-        let { SideMenuReducer={},TagReducer } = props.state,
-        { defendants=[], currentSelectDefendant } = SideMenuReducer,
-        { currentSelectWord } = TagReducer
+    static getDerivedStateFromProps(props, state) {
+        let { SideMenuReducer = {}, TagReducer } = props.state,
+            { defendants = [], currentSelectDefendant } = SideMenuReducer,
+            { currentSelectWord } = TagReducer
 
         // console.log(defendants,state.defendants)
-        if(typeof(currentSelectDefendant)!=='undefined' && (defendants !== state.defendants || currentSelectWord !== state.currentSelectWord)){
-            // 檢查字典中是否已有初值，若無則新增
-            let defendantsTagInfo = state.defendantsTagInfo
-            for(let i=0;i<defendants.length;i++){
-                let defendant = defendants[i]
-                // console.log(defendant)
-                if(defendant in defendantsTagInfo !== true){
-                    defendantsTagInfo[`${defendant}`]={}
-                    ACTION_TAGS.forEach((ACTION_TAG)=>{
-                        defendantsTagInfo[`${defendant}`][`${ACTION_TAG}`]=[]
-                    })
-                }
+        if (typeof (currentSelectDefendant) !== 'undefined') {
+            if (JSON.stringify(defendants) !== JSON.stringify(state.defendants)) {
+                return { defendants }
             }
+            if (JSON.stringify(currentSelectWord) !== JSON.stringify(state.currentSelectWord)) {
+                // 檢查字典中是否已有初值，若無則新增
+                let defendantsTagInfo = state.defendantsTagInfo
+                for (let i = 0; i < defendants.length; i++) {
+                    let defendant = defendants[i]
+                    // console.log(defendant)
+                    if (defendant in defendantsTagInfo !== true) {
+                        defendantsTagInfo[`${defendant}`] = {}
+                        ACTION_TAGS.forEach((ACTION_TAG) => {
+                            defendantsTagInfo[`${defendant}`][`${ACTION_TAG}`] = []
+                        })
+                    }
+                }
 
-            // 檢查字典中是否有應該被刪除的
-            for(let i=0;i<Object.keys(defendantsTagInfo).length;i++){
-                let key = Object.keys(defendantsTagInfo)[i]
-                console.log(key)
-                if(!defendants.includes(key)){
-                    delete defendantsTagInfo[`${key}`]
+                // 檢查字典中是否有應該被刪除的
+                for (let i = 0; i < Object.keys(defendantsTagInfo).length; i++) {
+                    let key = Object.keys(defendantsTagInfo)[i]
+                    console.log(key)
+                    if (!defendants.includes(key)) {
+                        delete defendantsTagInfo[`${key}`]
+                    }
                 }
+
+                // 設定選擇的標記
+                console.log(currentSelectWord, state.currentSelectWord)
+                console.log("SET", state.tagAction, currentSelectDefendant, currentSelectWord)
+                defendantsTagInfo[`${currentSelectDefendant}`][`${state.tagAction}`].push(currentSelectWord)
+
+
+                console.log(defendantsTagInfo)
+                return { defendantsTagInfo }
             }
-            console.log(defendantsTagInfo)
-            return {defendants,currentSelectWord,defendantsTagInfo}
         }
 
-        return state
+        return { currentSelectWord }
     }
 
     // tagInfo = (tagAction,defendant,selectWord)=>{
@@ -64,7 +76,7 @@ export class tagInfo extends Component {
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
-        
+
         console.log(this.props)
 
         return (
@@ -85,7 +97,7 @@ export class tagInfo extends Component {
                             <hr />
                             {ACTION_TAGS.map((actionTag, index) => {
                                 return (
-                                    <div key={index} className={`${tagAction === actionTag?'bg-light font-weight-bold':''}`}>
+                                    <div key={index} className={`${tagAction === actionTag ? 'bg-light font-weight-bold' : ''}`}>
                                         {actionTag}
                                         <ul>
                                             <li><button>單位1</button></li>
