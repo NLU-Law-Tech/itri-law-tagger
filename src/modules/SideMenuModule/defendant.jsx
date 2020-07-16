@@ -48,46 +48,23 @@ export class defendant extends Component {
         dispatch(setCurrentSelectDefendant(defendant))
     }
 
-    static getDerivedStateFromProps(props, state) {
-        let { dispatch } = props
-        let { isAddingNewDefendant, currentSelectWord: stateCurrentSelectWord, selectNewDefendants } = state
-        let { TagReducer = {} } = props.state
-        // call by state
-        if (props === state._props) {
-            return {
-                _props: props
-            }
-        }
-        // call by props
-        else {
-            if (isAddingNewDefendant === true) {
-                if (JSON.stringify(TagReducer.currentSelectWord) !== JSON.stringify(stateCurrentSelectWord)) {
-                    if (!selectNewDefendants.includes(TagReducer.currentSelectWord.val)) {
-                        selectNewDefendants.push(TagReducer.currentSelectWord.val)
-                        dispatch(setDefendants(selectNewDefendants))
-                        console.log(selectNewDefendants)
-                        return {
-                            isAddingNewDefendant: false,
-                            selectNewDefendants: [...selectNewDefendants],
-                            currentSelectWord: TagReducer.currentSelectWord
-                        }
-                    }
-                }
-            }
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        let { props, state } = this,
+            { dispatch } = props        
 
-            return {
+        if (state.isAddingNewDefendant === true && (props.state.TagReducer.currentSelectWord !== nextProps.state.TagReducer.currentSelectWord)) {
+            state.selectNewDefendants.push(nextProps.state.TagReducer.currentSelectWord.val)
+            dispatch(setDefendants(state.selectNewDefendants))
+            this.setState({
                 isAddingNewDefendant: false,
-                currentSelectWord: TagReducer.currentSelectWord,
-                _props: props
-            }
-
+                selectNewDefendants:state.selectNewDefendants
+            })
         }
     }
 
     render() {
         let { isAddingNewDefendant, isDelingDefendant, selectNewDefendants } = this.state
-        // { val:currentSelectWordVal } = currentSelectWord
-        // console.log(currentSelectWordVal)
         return (
             <div className="card">
                 <div className="card-body">

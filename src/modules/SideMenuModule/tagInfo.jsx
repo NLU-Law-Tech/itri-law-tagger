@@ -61,10 +61,6 @@ export class tagInfo extends Component {
         return { currentSelectWord }
     }
 
-    // tagInfo = (tagAction,defendant,selectWord)=>{
-    //     console.log(tagAction,defendant,selectWord)
-    // }
-
     setTagAction = (tagAction) => {
         this.setState({
             tagAction

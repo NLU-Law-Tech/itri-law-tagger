@@ -13,11 +13,11 @@ import logger from 'redux-logger'
 let store = createStore(combineReducers({TagReducer,SideMenuReducer}),applyMiddleware(logger))
 console.log(store)
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <Provider store={store}>
     <App />
     </Provider>
-  </React.StrictMode>,
+  </>,
   document.getElementById('root')
 );
 
