@@ -4,3 +4,10 @@ export const setCurrentSelectDefendant = (defendant)=>{
         defendant
     }
 }
+
+export const setDefendants = (defendants)=>{
+    return{
+        type:'SIDE_MENU_SET_DEFENDANTS',
+        defendants
+    }
+}

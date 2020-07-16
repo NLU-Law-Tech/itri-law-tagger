@@ -6,8 +6,8 @@ export class index extends Component {
     render() {
         return (
             <>
-                <h3>side menu</h3>
-                <Defendant />
+                <br/>
+                <Defendant/>
                 <br />
                 <TagInfo/>
             </>

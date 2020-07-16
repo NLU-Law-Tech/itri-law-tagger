@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setCurrentSelectDefendant } from './action'
+import { setCurrentSelectDefendant, setDefendants } from './action'
 
 export class defendant extends Component {
     constructor(props) {
@@ -39,6 +39,7 @@ export class defendant extends Component {
             selectNewDefendants
         })
         dispatch(setCurrentSelectDefendant(undefined))
+        dispatch(setDefendants(selectNewDefendants))
     }
 
     setSelectDefendant = (defendant)=>{
@@ -48,6 +49,7 @@ export class defendant extends Component {
 
 
     static getDerivedStateFromProps(props, state) {
+        let { dispatch } = props
         let { isAddingNewDefendant, currentSelectWord: stateCurrentSelectWord, selectNewDefendants } = state
         let { TagReducer = {} } = props.state,
             { currentSelectWord: tagCurrentSelectWord } = TagReducer
@@ -55,6 +57,7 @@ export class defendant extends Component {
         if (isAddingNewDefendant === true) {
             if (tagCurrentSelectWord !== stateCurrentSelectWord) {
                 selectNewDefendants.push(tagCurrentSelectWord.val)
+                dispatch(setDefendants(selectNewDefendants))
                 return Object.assign(state, {
                     isAddingNewDefendant: false,
                     selectNewDefendants,
