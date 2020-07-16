@@ -11,6 +11,7 @@ export class App extends Component {
             <SideMenuModule />
           </div>
           <div className="col">
+            <h3>itri law tagger</h3>
             <TagModule />
           </div>
         </div>
