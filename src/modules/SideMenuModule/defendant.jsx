@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { setCurrentSelectDefendant } from './action'
 
 export class defendant extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ export class defendant extends Component {
     }
 
     delDefendant = (selectNewDefendant) => {
+        let { dispatch } = this.props
         let { selectNewDefendants } = this.state
         selectNewDefendants = selectNewDefendants.filter((defendant) => {
             return defendant !== selectNewDefendant
@@ -36,6 +38,12 @@ export class defendant extends Component {
         this.setState({
             selectNewDefendants
         })
+        dispatch(setCurrentSelectDefendant(undefined))
+    }
+
+    setSelectDefendant = (defendant)=>{
+        let { dispatch } = this.props
+        dispatch(setCurrentSelectDefendant(defendant))
     }
 
 
@@ -81,7 +89,7 @@ export class defendant extends Component {
                                     {isDelingDefendant?
                                     <button className="btn btn-sm btn-danger m-1" onClick={()=>this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
                                     :
-                                    <button className="btn btn-sm btn-info m-1" onClick={()=>{}}>{selectNewDefendant}</button>
+                                    <button className="btn btn-sm btn-info m-1" onClick={()=>this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
                                     }
                                     <br />
                                 </React.Fragment>

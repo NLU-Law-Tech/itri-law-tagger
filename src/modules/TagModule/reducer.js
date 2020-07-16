@@ -1,5 +1,3 @@
-// import {  } from './actions'
-
 const initialState = {
     currentSelectWord:{}
 }
