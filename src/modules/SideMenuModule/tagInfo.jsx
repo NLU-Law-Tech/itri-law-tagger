@@ -7,9 +7,51 @@ export class tagInfo extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            currentSelectWord: undefined,
+            defendants:[],
+            defendantsTagInfo:{},
             tagAction: ACTION_TAGS[0]
         }
     }
+
+    static getDerivedStateFromProps(props, state){
+        let { SideMenuReducer={},TagReducer } = props.state,
+        { defendants=[], currentSelectDefendant } = SideMenuReducer,
+        { currentSelectWord } = TagReducer
+
+        // console.log(defendants,state.defendants)
+        if(defendants !== state.defendants || currentSelectWord !== state.currentSelectWord){
+            // 檢查字典中是否已有初值，若無則新增
+            let defendantsTagInfo = state.defendantsTagInfo
+            for(let i=0;i<defendants.length;i++){
+                let defendant = defendants[i]
+                // console.log(defendant)
+                if(defendant in defendantsTagInfo !== true){
+                    defendantsTagInfo[`${defendant}`]={}
+                    ACTION_TAGS.forEach((ACTION_TAG)=>{
+                        defendantsTagInfo[`${defendant}`][`${ACTION_TAG}`]=[]
+                    })
+                }
+            }
+
+            // 檢查字典中是否有應該被刪除的
+            for(let i=0;i<Object.keys(defendantsTagInfo).length;i++){
+                let key = Object.keys(defendantsTagInfo)[i]
+                console.log(key)
+                if(!defendants.includes(key)){
+                    delete defendantsTagInfo[`${key}`]
+                }
+            }
+            console.log(defendantsTagInfo)
+            return {defendants,currentSelectWord,defendantsTagInfo}
+        }
+
+        return state
+    }
+
+    // tagInfo = (tagAction,defendant,selectWord)=>{
+    //     console.log(tagAction,defendant,selectWord)
+    // }
 
     setTagAction = (tagAction) => {
         this.setState({
