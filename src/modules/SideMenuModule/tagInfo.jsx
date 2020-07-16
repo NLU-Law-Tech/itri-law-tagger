@@ -54,7 +54,7 @@ export class tagInfo extends Component {
 
 
                 console.log(defendantsTagInfo)
-                return { defendantsTagInfo }
+                return { ...defendantsTagInfo }
             }
         }
 
@@ -68,13 +68,13 @@ export class tagInfo extends Component {
     }
 
     render() {
-        let { tagAction } = this.state
+        let { tagAction, defendantsTagInfo } = this.state
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
 
         console.log(this.props)
-
+        let objectReady = Object.keys(defendantsTagInfo).length === 0 ? false : true
         return (
             <div className="card">
                 <div className="card-body">
@@ -95,8 +95,13 @@ export class tagInfo extends Component {
                                 return (
                                     <div key={index} className={`${tagAction === actionTag ? 'bg-light font-weight-bold' : ''}`}>
                                         {actionTag}
+
                                         <ul>
-                                            <li><button>單位1</button></li>
+                                            {objectReady ?
+                                                defendantsTagInfo[`${currentSelectDefendant}`][`${actionTag}`].map((option) => {
+                                                    return <li><button>{option.val}</button></li>
+                                                })
+                                                : ''}                                            
                                         </ul>
                                     </div>
                                 )
