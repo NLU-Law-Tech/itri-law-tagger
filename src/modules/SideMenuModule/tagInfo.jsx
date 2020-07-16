@@ -20,7 +20,7 @@ export class tagInfo extends Component {
         { currentSelectWord } = TagReducer
 
         // console.log(defendants,state.defendants)
-        if(typeof(currentSelectDefendant)!=='undefined' &&defendants !== state.defendants || currentSelectWord !== state.currentSelectWord){
+        if(typeof(currentSelectDefendant)!=='undefined' && (defendants !== state.defendants || currentSelectWord !== state.currentSelectWord)){
             // 檢查字典中是否已有初值，若無則新增
             let defendantsTagInfo = state.defendantsTagInfo
             for(let i=0;i<defendants.length;i++){
