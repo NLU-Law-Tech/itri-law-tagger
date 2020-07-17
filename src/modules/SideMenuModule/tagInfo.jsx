@@ -19,46 +19,42 @@ export class tagInfo extends Component {
             { defendants = [], currentSelectDefendant } = SideMenuReducer,
             { currentSelectWord } = TagReducer
 
-        // console.log(defendants,state.defendants)
-        if (typeof (currentSelectDefendant) !== 'undefined') {
-            if (JSON.stringify(defendants) !== JSON.stringify(state.defendants)) {
-                return { defendants }
+        // 被告變動
+        let defendantsTagInfo = state.defendantsTagInfo
+        if (defendants !== state.defendants) {
+            // 檢查字典中是否已有初值，若無則新增
+            for (let i = 0; i < defendants.length; i++) {
+                let defendant = defendants[i]
+                // console.log(defendant)
+                if (defendant in defendantsTagInfo !== true) {
+                    defendantsTagInfo[`${defendant}`] = {}
+                    ACTION_TAGS.forEach((ACTION_TAG) => {
+                        defendantsTagInfo[`${defendant}`][`${ACTION_TAG}`] = []
+                    })
+                }
             }
-            if (JSON.stringify(currentSelectWord) !== JSON.stringify(state.currentSelectWord)) {
-                // 檢查字典中是否已有初值，若無則新增
-                let defendantsTagInfo = state.defendantsTagInfo
-                for (let i = 0; i < defendants.length; i++) {
-                    let defendant = defendants[i]
-                    // console.log(defendant)
-                    if (defendant in defendantsTagInfo !== true) {
-                        defendantsTagInfo[`${defendant}`] = {}
-                        ACTION_TAGS.forEach((ACTION_TAG) => {
-                            defendantsTagInfo[`${defendant}`][`${ACTION_TAG}`] = []
-                        })
-                    }
+
+            // 檢查字典中是否有應該被刪除的
+            for (let i = 0; i < Object.keys(defendantsTagInfo).length; i++) {
+                let key = Object.keys(defendantsTagInfo)[i]
+                // console.log(key)
+                if (!defendants.includes(key)) {
+                    delete defendantsTagInfo[`${key}`]
                 }
-
-                // 檢查字典中是否有應該被刪除的
-                for (let i = 0; i < Object.keys(defendantsTagInfo).length; i++) {
-                    let key = Object.keys(defendantsTagInfo)[i]
-                    console.log(key)
-                    if (!defendants.includes(key)) {
-                        delete defendantsTagInfo[`${key}`]
-                    }
-                }
-
-                // 設定選擇的標記
-                console.log(currentSelectWord, state.currentSelectWord)
-                console.log("SET", state.tagAction, currentSelectDefendant, currentSelectWord)
-                defendantsTagInfo[`${currentSelectDefendant}`][`${state.tagAction}`].push(currentSelectWord)
-
-
-                console.log(defendantsTagInfo)
-                return Object.assign({},defendantsTagInfo)
             }
         }
 
-        return { currentSelectWord }
+        // 新選擇資訊進入
+        if(typeof (currentSelectDefendant) !== 'undefined' && currentSelectWord !== state.currentSelectWord){
+            defendantsTagInfo[`${currentSelectDefendant}`][`${state.tagAction}`].push(currentSelectWord)
+        }
+
+        return {
+            defendants:[...defendants],
+            currentSelectWord,
+            defendantsTagInfo,
+            _props: props
+        }
     }
 
     setTagAction = (tagAction) => {
@@ -73,7 +69,6 @@ export class tagInfo extends Component {
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
 
-        console.log(this.props)
         let objectReady = Object.keys(defendantsTagInfo).length === 0 ? false : true
         return (
             <div className="card">
@@ -98,10 +93,10 @@ export class tagInfo extends Component {
 
                                         <ul>
                                             {objectReady ?
-                                                defendantsTagInfo[`${currentSelectDefendant}`][`${actionTag}`].map((option) => {
-                                                    return <li><button>{option.val}</button></li>
+                                                defendantsTagInfo[`${currentSelectDefendant}`][`${actionTag}`].map((option,index) => {
+                                                    return <li key={index}><button>{option.val}</button></li>
                                                 })
-                                                : ''}                                            
+                                                : ''}
                                         </ul>
                                     </div>
                                 )

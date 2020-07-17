@@ -23,11 +23,13 @@ export class defendant extends Component {
     }
 
     addingNewDefendant = () => {
+        let{ dispatch } = this.props
         let { isAddingNewDefendant } = this.state
         this.setState({
             isAddingNewDefendant: !isAddingNewDefendant,
             isDelingDefendant: false
         })
+        dispatch(setCurrentSelectDefendant(undefined))
     }
 
     delDefendant = (selectNewDefendant) => {
