@@ -82,8 +82,8 @@ export class tagInfo extends Component {
 
     delActionTagElement = (defendant, actionTag, val) => {
         let { defendantsTagInfo } = this.state
-        console.log(defendant, actionTag, val)
-        console.log(defendantsTagInfo)
+        // console.log(defendant, actionTag, val)
+        // console.log(defendantsTagInfo)
         defendantsTagInfo[`${defendant}`][`${actionTag}`] = defendantsTagInfo[`${defendant}`][`${actionTag}`].filter((option) => {
             return option.val !== val
         })
@@ -97,7 +97,7 @@ export class tagInfo extends Component {
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
-        console.log(tagAction)
+        // console.log(tagAction)
         return (
             <div className="card">
                 {typeof (currentSelectDefendant) === 'undefined' ?

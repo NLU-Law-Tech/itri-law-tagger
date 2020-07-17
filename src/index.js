@@ -10,8 +10,9 @@ import TagReducer from './modules/TagModule/reducer'
 import SideMenuReducer from './modules/SideMenuModule/reducer'
 import MainReducer from './modules/MainReducer'
 import logger from 'redux-logger'
+import ReduxThunk from 'redux-thunk';
 
-let store = createStore(combineReducers({MainReducer,TagReducer,SideMenuReducer}),applyMiddleware(logger))
+let store = createStore(combineReducers({MainReducer,TagReducer,SideMenuReducer}),applyMiddleware(ReduxThunk,logger))
 console.log(store)
 ReactDOM.render(
   <>

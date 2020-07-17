@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { submitTag } from './action'
+import { submitTag,getUnlabelDoc } from './action'
+// import { initApp } from '../action'
 
 const TagBlock = styled.pre`
     font-size:${(props) => props.fontSize};
@@ -12,16 +13,29 @@ export class index extends Component {
         super(props)
         this.state = {
             fontSize: 18,
-            // eslint-disable-next-line
-            cj_text: '福建高等法院金門分院刑事裁定　　　　　 100年度聲字第10號\n\
-聲　請　人\n\
-即　被　告　許丕燕\n\
-上列聲請人即被告因違反毒品危害防制條例罪案件（本院99年度\n\
-上重訴字第2 號違反毒品危害防制條例罪案件），聲請具保停止\n\
-羈押，本院裁定如下：\n\
-主  文\n\
-聲請駁回。'
+            cj_text: ''
         }
+    }
+
+    componentDidMount(){
+        this.requestUnlabelDoc()
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        let { TagReducer={} } = props.state
+        // { dispatch } = props
+        // console.log(TagReducer)
+        if(state.cj_text !== TagReducer.unlabelDoc){
+            return {
+                cj_text:TagReducer.unlabelDoc
+            }
+        }
+        return null
+    }
+
+    requestUnlabelDoc = () =>{
+        let { dispatch } = this.props
+        dispatch(getUnlabelDoc())
     }
 
     setFontSize = (newSize) => {
@@ -98,4 +112,10 @@ export class index extends Component {
     }
 }
 
-export default connect()(index)
+let mapStateToProps = (state)=>{
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps)(index)
