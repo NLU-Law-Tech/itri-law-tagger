@@ -45,12 +45,12 @@ export class tagInfo extends Component {
         }
 
         // 新選擇資訊進入
-        if(typeof (currentSelectDefendant) !== 'undefined' && currentSelectWord !== state.currentSelectWord){
+        if (typeof (currentSelectDefendant) !== 'undefined' && currentSelectWord !== state.currentSelectWord) {
             defendantsTagInfo[`${currentSelectDefendant}`][`${state.tagAction}`].push(currentSelectWord)
         }
 
         return {
-            defendants:[...defendants],
+            defendants: [...defendants],
             currentSelectWord,
             defendantsTagInfo,
             _props: props
@@ -63,13 +63,22 @@ export class tagInfo extends Component {
         })
     }
 
+    delActionTagElement = (defendant,actionTag,val)=>{
+        let { defendantsTagInfo } = this.state
+        defendantsTagInfo = defendantsTagInfo[`${defendant}`][`${actionTag}`].filter((option)=>{
+            return option.val !== val
+        })
+        this.setState({
+            defendantsTagInfo
+        })
+    }
+
     render() {
         let { tagAction, defendantsTagInfo } = this.state
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
 
-        let objectReady = Object.keys(defendantsTagInfo).length === 0 ? false : true
         return (
             <div className="card">
                 <div className="card-body">
@@ -92,11 +101,9 @@ export class tagInfo extends Component {
                                         {actionTag}
 
                                         <ul>
-                                            {objectReady ?
-                                                defendantsTagInfo[`${currentSelectDefendant}`][`${actionTag}`].map((option,index) => {
-                                                    return <li key={index}><button>{option.val}</button></li>
-                                                })
-                                                : ''}
+                                            {defendantsTagInfo[`${currentSelectDefendant}`][`${actionTag}`].map((option, index) => {
+                                                return <li  key={index} onClick={()=>this.delActionTagElement(currentSelectDefendant,actionTag,option.val)}><button>{option.val}</button></li>
+                                            })}
                                         </ul>
                                     </div>
                                 )
