@@ -53,10 +53,12 @@ export class tagInfo extends Component {
         }
 
         // hot key
-        if(currentKeyDown !== state.currentKeyDown){
+        if(typeof (currentSelectDefendant) !== 'undefined' && currentKeyDown !== state.currentKeyDown){
             try {
-                let actionIndex = HOT_KEYS.indexOf(currentKeyDown)
-                tagAction = ACTION_TAGS[actionIndex]
+                if(HOT_KEYS.includes(currentKeyDown)){
+                    let actionIndex = HOT_KEYS.indexOf(currentKeyDown)
+                    tagAction = ACTION_TAGS[actionIndex]
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -80,7 +82,9 @@ export class tagInfo extends Component {
 
     delActionTagElement = (defendant, actionTag, val) => {
         let { defendantsTagInfo } = this.state
-        defendantsTagInfo = defendantsTagInfo[`${defendant}`][`${actionTag}`].filter((option) => {
+        console.log(defendant, actionTag, val)
+        console.log(defendantsTagInfo)
+        defendantsTagInfo[`${defendant}`][`${actionTag}`] = defendantsTagInfo[`${defendant}`][`${actionTag}`].filter((option) => {
             return option.val !== val
         })
         this.setState({
@@ -93,7 +97,7 @@ export class tagInfo extends Component {
         let { state = {} } = this.props,
             { SideMenuReducer = {} } = state,
             { currentSelectDefendant } = SideMenuReducer
-
+        console.log(tagAction)
         return (
             <div className="card">
                 {typeof (currentSelectDefendant) === 'undefined' ?

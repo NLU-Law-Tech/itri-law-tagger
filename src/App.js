@@ -24,10 +24,11 @@ export class App extends Component {
       <div className="container-fluid h-100">
         <div className="row" style={{height:'100%'}}>
           <div className="col-3" style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
+          <h3 className='mt-3 text-center'>ITRI Law-Tagger</h3>
             <SideMenuModule />
           </div>
           <div className="col"  style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
-            <h3>itri law tagger</h3>
+            <br/>
             <TagModule />
           </div>
         </div>
