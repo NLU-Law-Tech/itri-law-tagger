@@ -41,7 +41,8 @@ export class index extends Component {
                 state.saveLabledData()
             }
             if(MainReducer.currentKeyDown === 'n'){
-                state.requestUnlabelDoc()
+                // state.requestUnlabelDoc()
+                window.location.reload()
             }
         }
 
@@ -122,7 +123,7 @@ export class index extends Component {
                     <button onClick={() => { this.setFontSize(fontSize - 1) }}>-</button>
                 </div>
                 <hr />
-                <button onClick={this.requestUnlabelDoc}>下一篇(n)</button>
+                <button onClick={()=>window.location.reload()}>下一篇(n)</button>
                 <button onClick={this.saveLabledData}>儲存(s)</button>
                 <hr />
                 {cj_text === ''?
