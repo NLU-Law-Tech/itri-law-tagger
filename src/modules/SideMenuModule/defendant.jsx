@@ -74,20 +74,20 @@ export class defendant extends Component {
                 <div className="card-body">
                     <div className="card-title"><b>被告</b></div>
                     <div className="card-text">
-                        <button onClick={this.addingNewDefendant}>新增被告</button>
-                        <button onClick={this.delingDefendant}>刪除被告</button>
+                        <button onClick={this.addingNewDefendant}>新增被告(A)</button>
+                        <button onClick={this.delingDefendant}>刪除被告(D)</button>
                         <br/>
                         {isAddingNewDefendant ? '拖曳選擇' : undefined}
                         {isDelingDefendant ? '點選刪除' : undefined}
                         <br />
                         <hr />
-                        {selectNewDefendants.map((selectNewDefendant) => {
+                        {selectNewDefendants.map((selectNewDefendant,index) => {
                             return (
                                 <div key={selectNewDefendant}>
                                     {isDelingDefendant ?
-                                        <button key={'del'} className="btn btn-sm btn-danger m-1" onClick={() => this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                        <button key={'del'} className="btn btn-sm btn-danger m-1" onClick={() => this.delDefendant(selectNewDefendant)}>{`${selectNewDefendant}(${index+1})`}</button>
                                         :
-                                        <button key={'set'} className={`btn btn-sm btn-info m-1 ${currentSelectDefendant===selectNewDefendant?'active':''}`} onClick={() => this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                        <button key={'set'} className={`btn btn-sm btn-info m-1 ${currentSelectDefendant===selectNewDefendant?'active':''}`} onClick={() => this.setSelectDefendant(selectNewDefendant)}>{`${selectNewDefendant}(${index+1})`}</button>
                                     }
                                     <br />
                                 </div>

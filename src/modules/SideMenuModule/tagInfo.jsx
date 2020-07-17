@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 let ACTION_TAGS = ['單位', '職稱', '身份', '法條']
-
+let HOT_KEYS = ['Q','W','E','R']
 export class tagInfo extends Component {
     constructor(props) {
         super(props)
@@ -98,7 +98,10 @@ export class tagInfo extends Component {
                         </div>
                         <div className="card-text">
                             {ACTION_TAGS.map((actionTag, index) => {
-                                return <button key={index} className={`m-1 btn btn-sm btn-secondary ${tagAction === actionTag ? 'active' : ''}`} onClick={() => this.setTagAction(actionTag)}>{actionTag}</button>
+                                return <button 
+                                key={index} 
+                                className={`m-1 btn btn-sm btn-secondary ${tagAction === actionTag ? 'active' : ''}`} 
+                                onClick={() => this.setTagAction(actionTag)}>{`${actionTag}(${HOT_KEYS[index]})`}</button>
                             })}
                             <hr />
                             {ACTION_TAGS.map((actionTag, index) => {
