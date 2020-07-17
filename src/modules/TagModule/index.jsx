@@ -36,6 +36,17 @@ export class index extends Component {
         let selectWord = selection.toString();
         let tag_start = selection.anchorOffset;
         let tag_end = selection.focusOffset - 1;
+
+        if(selectWord.length === 0){
+            return
+        }
+
+        if(tag_end < tag_start){
+            var _tmp = tag_end
+            tag_end = tag_start
+            tag_start = _tmp
+        }
+
         let selectTag = {
             val: selectWord,
             tag_start,
