@@ -11,3 +11,10 @@ export const setDefendants = (defendants)=>{
         defendants
     }
 }
+
+export const updateDefendantsTagInfo = (defendantsTagInfo)=>{
+    return{
+        type:"SIDE_MENU_UPDATE_DEFENDANTS_TAG_INFO",
+        defendantsTagInfo
+    }
+}

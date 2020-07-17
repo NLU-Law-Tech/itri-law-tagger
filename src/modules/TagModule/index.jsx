@@ -21,7 +21,8 @@ export class index extends Component {
         this.requestUnlabelDoc()
         //
         this.setState({
-            requestUnlabelDoc:this.requestUnlabelDoc
+            requestUnlabelDoc:this.requestUnlabelDoc,
+            saveLabledData:this.saveLabledData
         })
     }
 
@@ -37,7 +38,7 @@ export class index extends Component {
 
         if(MainReducer.currentKeyDown !== state.currentKeyDown){
             if(MainReducer.currentKeyDown === 's'){
-                
+                state.saveLabledData()
             }
             if(MainReducer.currentKeyDown === 'n'){
                 state.requestUnlabelDoc()
@@ -47,6 +48,14 @@ export class index extends Component {
         return {
             currentKeyDown:MainReducer.currentKeyDown
         }
+    }
+
+    saveLabledData = ()=>{
+        // eslint-disable-next-line
+        let { dispatch } = this.props,
+        { SideMenuReducer={} } = this.props.state,
+        { defendantsTagInfo } = SideMenuReducer
+        console.log('save ->',defendantsTagInfo)
     }
 
     requestUnlabelDoc = () =>{
@@ -114,7 +123,7 @@ export class index extends Component {
                 </div>
                 <hr />
                 <button onClick={this.requestUnlabelDoc}>下一篇(n)</button>
-                <button>儲存(s)</button>
+                <button onClick={this.saveLabledData}>儲存(s)</button>
                 <hr />
                 {cj_text === ''?
                 <small>載入中</small>
