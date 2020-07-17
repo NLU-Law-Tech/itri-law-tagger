@@ -87,7 +87,6 @@ export class tagInfo extends Component {
                             <b>請先選擇一名被告</b>
                         </div>
                     </div>
-
                     :
                     <div className="card-body">
                         <div className="card-title">
@@ -118,7 +117,6 @@ export class tagInfo extends Component {
                         </div>
                     </div>
                 }
-
             </div>
         )
     }
