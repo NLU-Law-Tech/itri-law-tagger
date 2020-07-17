@@ -10,6 +10,7 @@ export class defendant extends Component {
             currentSelectWord: {},
             selectNewDefendants: [],
             isDelingDefendant: false,
+            currentKeyDown: undefined,
             _props: {}
         }
     }
@@ -62,6 +63,20 @@ export class defendant extends Component {
                 isAddingNewDefendant: false,
                 selectNewDefendants:state.selectNewDefendants
             })
+        }
+
+        // hot key
+        if(nextProps.state.MainReducer.currentKeyDown !== this.state.currentKeyDown){
+            this.setState({
+                currentKeyDown:nextProps.state.MainReducer.currentKeyDown
+            })
+            let key = nextProps.state.MainReducer.currentKeyDown
+            if(key === 'a'){
+                this.addingNewDefendant()
+            }
+            else if(key === 'd'){
+                this.delingDefendant()
+            }
         }
     }
 
