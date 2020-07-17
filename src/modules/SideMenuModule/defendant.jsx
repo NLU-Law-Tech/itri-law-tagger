@@ -72,8 +72,9 @@ export class defendant extends Component {
                 <div className="card-body">
                     <div className="card-title"><b>被告</b></div>
                     <div className="card-text">
-                        <button onClick={this.addingNewDefendant}>新增被告(A)</button>
+                        <button onClick={this.addingNewDefendant}>新增被告</button>
                         <button onClick={this.delingDefendant}>刪除被告</button>
+                        <br/>
                         {isAddingNewDefendant ? '拖曳選擇' : undefined}
                         {isDelingDefendant ? '點選刪除' : undefined}
                         <br />
