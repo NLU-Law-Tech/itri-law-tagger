@@ -67,6 +67,8 @@ export class defendant extends Component {
 
     render() {
         let { isAddingNewDefendant, isDelingDefendant, selectNewDefendants } = this.state
+        let { SideMenuReducer={} } = this.props.state,
+        {  currentSelectDefendant } = SideMenuReducer
         return (
             <div className="card">
                 <div className="card-body">
@@ -85,7 +87,7 @@ export class defendant extends Component {
                                     {isDelingDefendant ?
                                         <button key={'del'} className="btn btn-sm btn-danger m-1" onClick={() => this.delDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
                                         :
-                                        <button key={'set'} className="btn btn-sm btn-info m-1" onClick={() => this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
+                                        <button key={'set'} className={`btn btn-sm btn-info m-1 ${currentSelectDefendant===selectNewDefendant?'active':''}`} onClick={() => this.setSelectDefendant(selectNewDefendant)}>{selectNewDefendant}</button>
                                     }
                                     <br />
                                 </div>
