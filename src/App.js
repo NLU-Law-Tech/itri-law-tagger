@@ -17,6 +17,9 @@ export class App extends Component {
     console.log('KeyDown',e.key)
     let { dispatch } = this.props
     dispatch(setCurrentKeyDown(e.key))
+    setTimeout(()=>{
+      dispatch(setCurrentKeyDown(undefined))
+    },0)
   }
 
   render() {

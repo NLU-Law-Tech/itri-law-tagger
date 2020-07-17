@@ -19,10 +19,14 @@ export class index extends Component {
 
     componentDidMount(){
         this.requestUnlabelDoc()
+        //
+        this.setState({
+            requestUnlabelDoc:this.requestUnlabelDoc
+        })
     }
 
     static getDerivedStateFromProps(props, state) {
-        let { TagReducer={} } = props.state
+        let { TagReducer={},MainReducer={} } = props.state
         // { dispatch } = props
         // console.log(TagReducer)
         if(state.cj_text !== TagReducer.unlabelDoc){
@@ -30,7 +34,19 @@ export class index extends Component {
                 cj_text:TagReducer.unlabelDoc
             }
         }
-        return null
+
+        if(MainReducer.currentKeyDown !== state.currentKeyDown){
+            if(MainReducer.currentKeyDown === 's'){
+                
+            }
+            if(MainReducer.currentKeyDown === 'n'){
+                state.requestUnlabelDoc()
+            }
+        }
+
+        return {
+            currentKeyDown:MainReducer.currentKeyDown
+        }
     }
 
     requestUnlabelDoc = () =>{
@@ -97,8 +113,8 @@ export class index extends Component {
                     <button onClick={() => { this.setFontSize(fontSize - 1) }}>-</button>
                 </div>
                 <hr />
-                <button>下一篇</button>
-                <button>儲存</button>
+                <button onClick={this.requestUnlabelDoc}>下一篇(n)</button>
+                <button>儲存(s)</button>
                 <hr />
                 {cj_text === ''?
                 <small>載入中</small>
