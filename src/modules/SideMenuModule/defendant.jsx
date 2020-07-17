@@ -77,6 +77,14 @@ export class defendant extends Component {
             else if(key === 'd'){
                 this.delingDefendant()
             }
+            else if(!isNaN(parseInt(key))){
+                try {
+                    let selectDefendant = this.state.selectNewDefendants[parseInt(key)-1]
+                    this.setSelectDefendant(selectDefendant)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }
     }
 
