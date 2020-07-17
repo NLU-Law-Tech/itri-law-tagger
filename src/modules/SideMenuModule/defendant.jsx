@@ -80,7 +80,13 @@ export class defendant extends Component {
             else if(!isNaN(parseInt(key))){
                 try {
                     let selectDefendant = this.state.selectNewDefendants[parseInt(key)-1]
-                    this.setSelectDefendant(selectDefendant)
+                    if(this.state.isDelingDefendant){
+                        this.delDefendant(selectDefendant)
+                    }
+                    else{
+                        this.setSelectDefendant(selectDefendant)
+                    }
+                    
                 } catch (error) {
                     console.log(error)
                 }
@@ -100,8 +106,8 @@ export class defendant extends Component {
                         <button onClick={this.addingNewDefendant}>新增被告(a)</button>
                         <button onClick={this.delingDefendant}>刪除被告(d)</button>
                         <br/>
-                        {isAddingNewDefendant ? '拖曳選擇' : undefined}
-                        {isDelingDefendant ? '點選刪除' : undefined}
+                        {isAddingNewDefendant ? '在文章中拖曳選擇被告' : undefined}
+                        {isDelingDefendant ? '點選紅色被告按鈕刪除' : undefined}
                         <br />
                         <hr />
                         {selectNewDefendants.map((selectNewDefendant,index) => {

@@ -100,12 +100,15 @@ export class index extends Component {
                 <button>下一篇</button>
                 <button>儲存</button>
                 <hr />
+                {cj_text === ''?
+                <small>載入中</small>
+                :
                 <TagBlock
                     fontSize={`${fontSize}px`}
                     onMouseUp={(e) => this.tagWords(e)}
                 >
                     {cj_text}
-                </TagBlock>
+                </TagBlock>}
                 <hr />
             </div>
         )
