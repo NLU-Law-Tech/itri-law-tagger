@@ -15,9 +15,12 @@ export class tagInfo extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let { SideMenuReducer = {}, TagReducer } = props.state,
+        let { SideMenuReducer = {}, TagReducer={}, MainReducer } = props.state,
             { defendants = [], currentSelectDefendant } = SideMenuReducer,
-            { currentSelectWord } = TagReducer
+            { currentSelectWord } = TagReducer,
+            { currentKeyDown } = MainReducer
+        
+        let { tagAction } = state
 
         // 被告變動
         let defendantsTagInfo = state.defendantsTagInfo
@@ -49,7 +52,19 @@ export class tagInfo extends Component {
             defendantsTagInfo[`${currentSelectDefendant}`][`${state.tagAction}`].push(currentSelectWord)
         }
 
+        // hot key
+        if(currentKeyDown !== state.currentKeyDown){
+            try {
+                let actionIndex = HOT_KEYS.indexOf(currentKeyDown)
+                tagAction = ACTION_TAGS[actionIndex]
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         return {
+            tagAction,
+            currentKeyDown,
             defendants: [...defendants],
             currentSelectWord,
             defendantsTagInfo,
