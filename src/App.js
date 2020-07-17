@@ -21,12 +21,12 @@ export class App extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-3">
+      <div className="container-fluid h-100">
+        <div className="row" style={{height:'100%'}}>
+          <div className="col-3" style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
             <SideMenuModule />
           </div>
-          <div className="col">
+          <div className="col"  style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
             <h3>itri law tagger</h3>
             <TagModule />
           </div>
