@@ -1,6 +1,9 @@
+// import { setDefendants } from './SideMenuModule/action'
 export const initApp = ()=>{
-    return {
-        type:"INIT_APP"
+    return (dispatch)=>{
+        // dispatch(setDefendants([]))
+        dispatch({type:"INIT_APP"})
+        // window.location.reload()
     }
 }
 export const setCurrentKeyDown = (key)=>{
