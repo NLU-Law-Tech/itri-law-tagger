@@ -1,6 +1,7 @@
 const initialState = {
   currentSelectWord: {},
-  unlabelDoc: ''
+  unlabelDoc: '',
+  unlabelDocId: ''
 }
 
 function Reducer(state = initialState, action) {
@@ -16,6 +17,7 @@ function Reducer(state = initialState, action) {
 
     case "TAG_GET_UNLABEL_DOC_SUCCESS":
       return Object.assign({}, state, {
+        unlabelDocId:action.unlabelDocId,
         unlabelDoc:action.unlabelDoc
       })
       

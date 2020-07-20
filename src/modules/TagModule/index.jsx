@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { submitTag,getUnlabelDoc } from './action'
-// import { initApp } from '../action'
+import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc } from './action'
 
 const TagBlock = styled.pre`
     font-size:${(props) => props.fontSize};
@@ -17,49 +16,56 @@ export class index extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.requestUnlabelDoc()
         //
         this.setState({
-            requestUnlabelDoc:this.requestUnlabelDoc,
-            saveLabledData:this.saveLabledData
+            requestUnlabelDoc: this.requestUnlabelDoc,
+            saveLabeldData: this.saveLabeldData
         })
     }
 
     static getDerivedStateFromProps(props, state) {
-        let { TagReducer={},MainReducer={} } = props.state
+        let { TagReducer = {}, MainReducer = {} } = props.state
         // { dispatch } = props
         // console.log(TagReducer)
-        if(state.cj_text !== TagReducer.unlabelDoc){
+        if (state.cj_text !== TagReducer.unlabelDoc) {
             return {
-                cj_text:TagReducer.unlabelDoc
+                cj_text: TagReducer.unlabelDoc
             }
         }
 
-        if(MainReducer.currentKeyDown !== state.currentKeyDown){
-            if(MainReducer.currentKeyDown === 's'){
-                state.saveLabledData()
+        if (MainReducer.currentKeyDown !== state.currentKeyDown) {
+            if (MainReducer.currentKeyDown === 's') {
+                state.saveLabeldData()
             }
-            if(MainReducer.currentKeyDown === 'n'){
+            if (MainReducer.currentKeyDown === 'n') {
                 // state.requestUnlabelDoc()
                 window.location.reload()
             }
         }
 
         return {
-            currentKeyDown:MainReducer.currentKeyDown
+            currentKeyDown: MainReducer.currentKeyDown
         }
     }
 
-    saveLabledData = ()=>{
+    saveLabeldData = () => {
         // eslint-disable-next-line
         let { dispatch } = this.props,
-        { SideMenuReducer={} } = this.props.state,
-        { defendantsTagInfo } = SideMenuReducer
-        console.log('save ->',defendantsTagInfo)
+            { SideMenuReducer = {}, TagReducer = {} } = this.props.state,
+            { defendantsTagInfo } = SideMenuReducer,
+            { unlabelDocId = '' } = TagReducer
+        console.log('save ->', defendantsTagInfo)
+        if (unlabelDocId !== '' && Object.keys(defendantsTagInfo).length > 0) {
+            dispatch(saveLabledDataAction(unlabelDocId,defendantsTagInfo))
+        }
+        else{
+            console.warn("saveLabeldData error,rule not pass",unlabelDocId,defendantsTagInfo)
+        }
     }
 
-    requestUnlabelDoc = () =>{
+    requestUnlabelDoc = () => {
         let { dispatch } = this.props
         dispatch(getUnlabelDoc())
     }
@@ -77,11 +83,11 @@ export class index extends Component {
         let tag_start = selection.anchorOffset;
         let tag_end = selection.focusOffset - 1;
 
-        if(selectWord.length === 0){
+        if (selectWord.length === 0) {
             return
         }
 
-        if(tag_end < tag_start){
+        if (tag_end < tag_start) {
             var _tmp = tag_end
             tag_end = tag_start
             tag_start = _tmp
@@ -123,25 +129,25 @@ export class index extends Component {
                     <button onClick={() => { this.setFontSize(fontSize - 1) }}>-</button>
                 </div>
                 <hr />
-                <button onClick={()=>window.location.reload()}>下一篇(n)</button>
-                <button onClick={this.saveLabledData}>儲存(s)</button>
+                <button onClick={() => window.location.reload()}>下一篇(n)</button>
+                <button onClick={this.saveLabeldData}>儲存(s)</button>
                 <hr />
-                {cj_text === ''?
-                <small>載入中</small>
-                :
-                <TagBlock
-                    fontSize={`${fontSize}px`}
-                    onMouseUp={(e) => this.tagWords(e)}
-                >
-                    {cj_text}
-                </TagBlock>}
+                {cj_text === '' ?
+                    <small>載入中</small>
+                    :
+                    <TagBlock
+                        fontSize={`${fontSize}px`}
+                        onMouseUp={(e) => this.tagWords(e)}
+                    >
+                        {cj_text}
+                    </TagBlock>}
                 <hr />
             </div>
         )
     }
 }
 
-let mapStateToProps = (state)=>{
+let mapStateToProps = (state) => {
     return {
         state
     }
