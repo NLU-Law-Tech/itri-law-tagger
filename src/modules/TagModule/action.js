@@ -77,6 +77,7 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
         axios.post("http://140.120.13.242:15004/labeled_data",apiObject)
             .then((res)=>{
                 console.log(res)
+                dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
             })
             .catch((error)=>{
                 console.log(error)
