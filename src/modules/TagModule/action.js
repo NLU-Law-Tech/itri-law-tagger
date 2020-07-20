@@ -1,6 +1,13 @@
 import { initApp } from '../action'
 const axios = require('axios');
 
+let API_SERVER = ''
+if (process.env.NODE_ENV !== 'production') {
+    API_SERVER = 'http://140.120.13.242:15004'
+}
+console.log('API_SERVER:',API_SERVER)
+
+
 export const submitTag = (tagWordObject) => {
     return {
         type: 'TAG_CURRENT_SELECT_WORD',
@@ -13,7 +20,7 @@ export const getUnlabelDoc = () => {
     return (dispatch) => {
         dispatch(initApp())
         dispatch({ type: "TAG_GET_UNLABEL_DOC_START" })
-        axios.get("http://140.120.13.242:15004/unlabel_doc")
+        axios.get(API_SERVER + "/unlabel_doc")
             .then((res) => {
                 let { verdict, content_id = '' } = res.data
                 console.log(res.data)
@@ -74,7 +81,7 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
         }
         console.log(apiObject)
 
-        axios.post("http://140.120.13.242:15004/labeled_data",apiObject)
+        axios.post(API_SERVER + "/labeled_data",apiObject)
             .then((res)=>{
                 console.log(res)
                 dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
