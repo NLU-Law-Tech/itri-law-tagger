@@ -25,12 +25,12 @@ export const getUnlabelDoc = () => {
                 let { verdict, content_id = '' } = res.data
                 console.log(res.data)
                 verdict = JSON.parse(verdict)
-                let { content } = verdict
+                let { judgement } = verdict
 
                 dispatch({
                     type: "TAG_GET_UNLABEL_DOC_SUCCESS",
                     unlabelDocId: content_id,
-                    unlabelDoc: content,
+                    unlabelDoc: judgement,
                 })
             })
     }

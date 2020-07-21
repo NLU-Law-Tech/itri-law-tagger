@@ -125,12 +125,12 @@ export class index extends Component {
             <div>
                 <div>
                     <label htmlFor="">font-size:{fontSize}&nbsp;&nbsp;</label>
-                    <button onClick={() => { this.setFontSize(fontSize + 1) }}>+</button>
-                    <button onClick={() => { this.setFontSize(fontSize - 1) }}>-</button>
+                    <button className="mr-1" onClick={() => { this.setFontSize(fontSize + 1) }}> + </button>
+                    <button onClick={() => { this.setFontSize(fontSize - 1) }}> - </button>
                 </div>
                 <hr />
+                <button className="mr-1" onClick={this.saveLabeldData}>儲存(s)</button>
                 <button onClick={() => window.location.reload()}>下一篇(n)</button>
-                <button onClick={this.saveLabeldData}>儲存(s)</button>
                 <hr />
                 {cj_text === '' ?
                     <small>載入中</small>
