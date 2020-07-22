@@ -89,6 +89,7 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
             })
             .catch((error)=>{
                 console.log(error)
+                alert('儲存失敗')
             })
     }
 }
