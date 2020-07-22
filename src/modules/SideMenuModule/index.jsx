@@ -6,7 +6,6 @@ export class index extends Component {
     render() {
         return (
             <>
-                <br/>
                 <Defendant/>
                 <br />
                 <TagInfo/>

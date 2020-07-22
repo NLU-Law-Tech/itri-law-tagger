@@ -27,7 +27,13 @@ export class App extends Component {
       <div className="container-fluid h-100">
         <div className="row" style={{height:'100%'}}>
           <div className="col-3" style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
-          <h3 className='mt-3 text-center'>ITRI Law-Tagger</h3>
+          <h3 className='mt-3 mb-3 text-center'>
+            ITRI Law-Tagger
+            <br/>
+            <small style={{fontSize:18}}><a target="_blank" rel="noopener noreferrer" href="https://hackmd.io/@cSqKkEHwT9GlCOqtNnxBQA/BJWZiDSlw">使用者指南</a></small>
+            <br/>
+            <small style={{fontSize:8}}><b>首次使用請詳閱指南</b></small>
+            </h3>
             <SideMenuModule />
           </div>
           <div className="col"  style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
