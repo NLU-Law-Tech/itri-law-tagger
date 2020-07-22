@@ -68,6 +68,7 @@ export class index extends Component {
             dispatch(saveLabledDataAction(unlabelDocId,defendantsTagInfo))
         }
         else{
+            alert("saveLabeldData error,rule not pass")
             console.warn("saveLabeldData error,rule not pass",unlabelDocId,defendantsTagInfo)
         }
     }
