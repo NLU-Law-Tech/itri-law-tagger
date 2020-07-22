@@ -21,8 +21,15 @@ export class index extends Component {
         //
         this.setState({
             requestUnlabelDoc: this.requestUnlabelDoc,
-            saveLabeldData: this.saveLabeldData
+            saveLabeldData: this.saveLabeldData,
+            getNextDoc: this.getNextDoc
         })
+    }
+
+    getNextDoc = ()=>{
+        setTimeout(()=>{
+            window.location.reload()
+        },500)
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -40,8 +47,8 @@ export class index extends Component {
                 state.saveLabeldData()
             }
             if (MainReducer.currentKeyDown === 'n') {
-                // state.requestUnlabelDoc()
-                window.location.reload()
+                state.getNextDoc()
+                // window.location.reload()
             }
         }
 
@@ -130,7 +137,7 @@ export class index extends Component {
                 </div>
                 <hr />
                 <button className="mr-1" onClick={this.saveLabeldData}>儲存(s)</button>
-                <button onClick={() => window.location.reload()}>下一篇(n)</button>
+                <button onClick={this.getNextDoc}>下一篇(n)</button>
                 <hr />
                 {cj_text === '' ?
                     <small>載入中</small>
