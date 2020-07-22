@@ -85,6 +85,7 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
             .then((res)=>{
                 console.log(res)
                 dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
+                alert('已儲存')
             })
             .catch((error)=>{
                 console.log(error)
