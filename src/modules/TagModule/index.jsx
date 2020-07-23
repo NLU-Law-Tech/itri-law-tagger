@@ -3,8 +3,24 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc } from './action'
 
-const TagBlock = styled.pre`
+const TagBlockFront = styled.pre`
+    z-index:1;
+    position: absolute;
+    top:0px;
+    background-color:rgba(0,0,0,0);
     font-size:${(props) => props.fontSize};
+`
+
+const TagBlockRear = styled.pre`
+    z-index:-1;
+    position: absolute;
+    top:0px;
+    font-size:${(props) => props.fontSize};
+    & > mark{
+        z-index:-1;
+        padding: 0px;
+        background-color: yellow;
+    }
 `
 
 export class index extends Component {
@@ -12,7 +28,9 @@ export class index extends Component {
         super(props)
         this.state = {
             fontSize: 18,
-            cj_text: ''
+            cj_text: '',
+            cj_text_hl: '',
+            hightLightCJText: () => { }
         }
     }
 
@@ -22,22 +40,25 @@ export class index extends Component {
         this.setState({
             requestUnlabelDoc: this.requestUnlabelDoc,
             saveLabeldData: this.saveLabeldData,
-            getNextDoc: this.getNextDoc
+            getNextDoc: this.getNextDoc,
+            hightLightCJText: this.hightLightCJText
         })
     }
 
-    getNextDoc = ()=>{
-        setTimeout(()=>{
+    getNextDoc = () => {
+        setTimeout(() => {
             window.location.reload()
-        },500)
+        }, 500)
     }
 
     static getDerivedStateFromProps(props, state) {
-        let { TagReducer = {}, MainReducer = {} } = props.state
+        let { TagReducer = {}, MainReducer = {}, SideMenuReducer = {} } = props.state,
+            { currentSelectDefendant = '' } = SideMenuReducer
         // { dispatch } = props
         // console.log(TagReducer)
         if (state.cj_text !== TagReducer.unlabelDoc) {
             return {
+                // cj_text_hl: state.hightLightCJText(TagReducer.unlabelDoc),
                 cj_text: TagReducer.unlabelDoc
             }
         }
@@ -53,8 +74,20 @@ export class index extends Component {
         }
 
         return {
-            currentKeyDown: MainReducer.currentKeyDown
+            currentKeyDown: MainReducer.currentKeyDown,
+            cj_text_hl: state.hightLightCJText(state.cj_text, [currentSelectDefendant]),
         }
+    }
+
+    hightLightCJText = (cj_text, hlList = []) => {
+        // console.log(cj_text)
+        hlList.forEach((hlText) => {
+            if (hlText !== '') {
+                let re = new RegExp(hlText, "g");
+                cj_text = cj_text.replace(re, `<mark>${hlText}</mark>`)
+            }
+        })
+        return cj_text
     }
 
     saveLabeldData = () => {
@@ -65,11 +98,11 @@ export class index extends Component {
             { unlabelDocId = '' } = TagReducer
         console.log('save ->', defendantsTagInfo)
         if (unlabelDocId !== '' && Object.keys(defendantsTagInfo).length > 0) {
-            dispatch(saveLabledDataAction(unlabelDocId,defendantsTagInfo))
+            dispatch(saveLabledDataAction(unlabelDocId, defendantsTagInfo))
         }
-        else{
+        else {
             alert("saveLabeldData error,rule not pass")
-            console.warn("saveLabeldData error,rule not pass",unlabelDocId,defendantsTagInfo)
+            console.warn("saveLabeldData error,rule not pass", unlabelDocId, defendantsTagInfo)
         }
     }
 
@@ -128,7 +161,8 @@ export class index extends Component {
     }
 
     render() {
-        let { cj_text, fontSize } = this.state
+        let { cj_text, cj_text_hl, fontSize } = this.state
+        // console.log(cj_text_hl)
         return (
             <div>
                 <div>
@@ -143,14 +177,24 @@ export class index extends Component {
                 {cj_text === '' ?
                     <small>載入中</small>
                     :
-                    <TagBlock
-                        fontSize={`${fontSize}px`}
-                        onMouseUp={(e) => this.tagWords(e)}
-                    >
-                        {cj_text}
-                    </TagBlock>}
+                    <div style={{ position: 'relative' }}>
+                        <TagBlockFront
+                            fontSize={`${fontSize}px`}
+                            onMouseUp={(e) => this.tagWords(e)}
+                        >
+                            {cj_text}
+                        </TagBlockFront>
+                        <TagBlockRear
+                            fontSize={`${fontSize}px`}
+                            onMouseUp={(e) => this.tagWords(e)}
+                            dangerouslySetInnerHTML={{
+                                __html: cj_text_hl
+                            }}
+                        />
+                    </div>
+                }
                 <hr />
-            </div>
+            </div >
         )
     }
 }

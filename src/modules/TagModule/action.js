@@ -3,7 +3,7 @@ const axios = require('axios');
 
 let API_SERVER = ''
 if (process.env.NODE_ENV !== 'production') {
-    API_SERVER = 'http://140.120.13.242:15004'
+    API_SERVER = 'http://127.0.0.1:15004'
 }
 console.log('API_SERVER:',API_SERVER)
 
