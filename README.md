@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ITRI LAW-TAGGER 使用者指南
+## 一、標註系統說明
 
-## Available Scripts
+### 快捷鍵
+標註系統有設有快捷鍵，請參考[按鈕 **(key)**]提示
 
-In the project directory, you can run:
+### 標註方法
+選擇標註動作後使用滑鼠在文件上**拖曳選取範圍**
 
-### `yarn start`
+### 存檔
+標註完成後按下 **[儲存(s)]** 存檔，若在存檔後有變動標註結果，請直接存檔即可
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 取得未標註文黨
+存檔後提示已存檔，即可按下 **[下一篇(n)]** 取得下一篇未標註文檔
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## 二、標註指南
+**如遇指南上未說明、不清楚的問題可至[表單發問](https://docs.google.com/spreadsheets/d/1kFWxhuB-fNrie9U2svVpC0FKwtBeog2kg7prTdmB_LU/edit?usp=sharing)**
+### 通用規則
+1. 被告姓名以OO替代，以致無法標註請按 **[下一篇(n)]** 跳過
+### 標註被告
+從文件開頭區域，標示被告人
+不在此區的人物則非屬被告人
+![](https://i.imgur.com/ht0Leax.png)
 
-### `yarn test`
+### 標註單位
+通常是被告任職公司
+非公司如詐騙集團則**不是單位**
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 標註職稱
+僅標註職稱
+如新社國小校長，僅需標註**校長**
 
-### `yarn build`
+### 標註身份
+僅有清單下列有出現才標註
+- 樁腳
+- 電腦手
+- 軍人
+- 車手
+- 下線
+- 候選人
+- 上線
+- 公務員
+- 金主
+- 公務人員
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### 標註法條
+#### 所有要標註的法條僅從**附錄法條**段落標註
+1. 先從**論罪科刑**段落閱讀找到被告所觸犯的法條
+2. 再從**附錄法條**段落尋找該被告觸犯法條進行標記
+![](https://i.imgur.com/lldvxIC.png) 
+3. 在**附錄法條**段落若該被係觸犯
+**OOO法條OO條OO項**，而段落敘述無法完整標示**OOO法條OO條OO項**
+則僅標註**OO條**或**OO項**。在盡量完整的情況下，**以有標註到細項為原則**。
