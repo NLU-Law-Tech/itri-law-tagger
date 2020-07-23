@@ -36,7 +36,7 @@ export class App extends Component {
             </h3>
             <SideMenuModule />
           </div>
-          <div className="col"  style={{height:'100%',overflowX:'hidden',overflowY:'scroll'}}>
+          <div className="col"  style={{height:'100%',overflowX:'scroll',overflowY:'scroll'}}>
             <br/>
             <TagModule />
           </div>
