@@ -4,30 +4,30 @@ import { connect } from 'react-redux'
 import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc } from './action'
 
 const TagBlockFront = styled.pre`
-    z-index:1;
-    position: absolute;
-    top:0px;
-    background-color:rgba(0,0,0,0);
-    font-size:${(props) => props.fontSize};
-`
-
-const TagBlockRear = styled.pre`
-    z-index:-1;
+    z-index:2;
+    pointer-events: none;
     position: absolute;
     top:0px;
     font-size:${(props) => props.fontSize};
     & > mark{
-        z-index:-1;
         padding: 0px;
         background-color: yellow;
     }
+`
+
+const TagBlockRear = styled.pre`
+    z-index:1;
+    position: absolute;
+    top:0px;
+    /* background-color:rgba(0,0,0,0); */
+    font-size:${(props) => props.fontSize};
 `
 
 export class index extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            fontSize: 18,
+            fontSize: 20,
             cj_text: '',
             cj_text_hl: '',
             hightLightCJText: () => { }
@@ -177,20 +177,21 @@ export class index extends Component {
                 {cj_text === '' ?
                     <small>載入中</small>
                     :
-                    <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'relative',zIndex:0 }}>
                         <TagBlockFront
                             fontSize={`${fontSize}px`}
-                            onMouseUp={(e) => this.tagWords(e)}
-                        >
-                            {cj_text}
-                        </TagBlockFront>
-                        <TagBlockRear
-                            fontSize={`${fontSize}px`}
-                            onMouseUp={(e) => this.tagWords(e)}
                             dangerouslySetInnerHTML={{
                                 __html: cj_text_hl
                             }}
                         />
+                        <TagBlockRear
+                            key={JSON.stringify(this.props)}
+                            fontSize={`${fontSize}px`}
+                            onMouseUp={(e) => this.tagWords(e)}
+                        >
+                            {cj_text}
+                        </TagBlockRear>
+                        
                     </div>
                 }
                 <hr />
