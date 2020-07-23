@@ -196,7 +196,6 @@ export class index extends Component {
                         
                     </div>
                 }
-                <hr />
             </div >
         )
     }
