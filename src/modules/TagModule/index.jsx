@@ -53,7 +53,8 @@ export class index extends Component {
 
     static getDerivedStateFromProps(props, state) {
         let { TagReducer = {}, MainReducer = {}, SideMenuReducer = {} } = props.state,
-            { currentSelectDefendant = '' } = SideMenuReducer
+        // eslint-disable-next-line
+            { currentSelectDefendant = '',defendants } = SideMenuReducer
         // { dispatch } = props
         // console.log(TagReducer)
         if (state.cj_text !== TagReducer.unlabelDoc) {
@@ -75,7 +76,8 @@ export class index extends Component {
 
         return {
             currentKeyDown: MainReducer.currentKeyDown,
-            cj_text_hl: state.hightLightCJText(state.cj_text, [currentSelectDefendant]),
+            cj_text_hl: state.hightLightCJText(state.cj_text, defendants),
+            // cj_text_hl: state.hightLightCJText(state.cj_text, [currentSelectDefendant]),
         }
     }
 
