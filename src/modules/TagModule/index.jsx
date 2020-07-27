@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc } from './action'
+import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc, delDoc } from './action'
 
 const TagBlockFront = styled.pre`
     z-index:2;
@@ -46,15 +46,20 @@ export class index extends Component {
     }
 
     getNextDoc = () => {
-        setTimeout(() => {
-            window.location.reload()
-        }, 500)
+        window.location.reload()
+    }
+
+    delDocOnclick = ()=>{
+        let { dispatch }  = this.props,
+        { TagReducer={} } = this.props.state,
+        { unlabelDocId='' } = TagReducer
+        dispatch(delDoc(unlabelDocId))
     }
 
     static getDerivedStateFromProps(props, state) {
         let { TagReducer = {}, MainReducer = {}, SideMenuReducer = {} } = props.state,
-        // eslint-disable-next-line
-            { currentSelectDefendant = '',defendants } = SideMenuReducer
+            // eslint-disable-next-line
+            { currentSelectDefendant = '', defendants } = SideMenuReducer
         // { dispatch } = props
         // console.log(TagReducer)
         if (state.cj_text !== TagReducer.unlabelDoc) {
@@ -175,11 +180,12 @@ export class index extends Component {
                 <hr />
                 <button className="mr-1" onClick={this.saveLabeldData}>儲存(s)</button>
                 <button onClick={this.getNextDoc}>下一篇(n)</button>
+                <button className="float-right btn-danger" onClick={this.delDocOnclick}>撤銷本篇</button>
                 <hr />
                 {cj_text === '' ?
                     <small>載入中</small>
                     :
-                    <div style={{ position: 'relative',zIndex:0 }}>
+                    <div style={{ position: 'relative', zIndex: 0 }}>
                         <TagBlockFront
                             fontSize={`${fontSize}px`}
                             dangerouslySetInnerHTML={{
@@ -193,7 +199,7 @@ export class index extends Component {
                         >
                             {cj_text}
                         </TagBlockRear>
-                        
+
                     </div>
                 }
             </div >
