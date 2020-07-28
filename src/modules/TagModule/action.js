@@ -7,6 +7,28 @@ if (process.env.NODE_ENV !== 'production') {
 }
 console.log('API_SERVER:',API_SERVER)
 
+export const getIdentityList = ()=>{
+    return (dispatch)=>{
+        dispatch({
+            type:'TAG_GET_IDENTITY_LIST_START'
+        })
+        //https://gist.github.com/p208p2002/cbc21d9a3dd270ad95a5b209e62c1cac
+        axios.get('https://gist.githubusercontent.com/p208p2002/cbc21d9a3dd270ad95a5b209e62c1cac/raw/0cd26f68a66195b055e4c3dc8f08ed546eacb4dd/identity_list.txt')
+        .then((res)=>{
+            // console.log(res.data.split("\n"))
+            dispatch({
+                type:'TAG_GET_IDENTITY_LIST_SUCCESS',
+                identitylist:res.data.split("\n")
+            })
+        })
+        .catch((res)=>{
+            console.log(res)
+            dispatch({
+                type:'TAG_GET_IDENTITY_LIST_FAIL'
+            })
+        })
+    }
+}
 
 export const submitTag = (tagWordObject) => {
     return {

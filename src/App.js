@@ -3,10 +3,12 @@ import SideMenuModule from './modules/SideMenuModule'
 import TagModule from './modules/TagModule'
 import { connect } from 'react-redux'
 import { setCurrentKeyDown } from './modules/action'
-
+import { getIdentityList } from './modules/TagModule/action'
 export class App extends Component {
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
+    let { dispatch } = this.props
+    dispatch(getIdentityList())
   }
 
   componentWillUnmount() {
@@ -23,16 +25,8 @@ export class App extends Component {
   }
 
   render() {
-    let position_list = ['樁腳',
-      '電腦手',
-      '軍人',
-      '車手',
-      '下線',
-      '候選人',
-      '上線',
-      '公務員',
-      '金主',
-      '公務人員']
+    let { TagReducer={} } = this.props.state,
+    { identitylist=[] } = TagReducer
     return (
       <div className="container-fluid h-100">
         <div className="row" style={{ height: '100%' }}>
@@ -50,11 +44,11 @@ export class App extends Component {
             <br />
             <TagModule />
           </div>
-          <div className="col-1 pt-2" style={{minWidth:180}}>
+          <div className="col-1 pt-2" style={{minWidth:200,height: '100%', overflowY: 'scroll'}}>
             <h5>關注身份清單</h5>
             <hr/>
             <div>
-              {position_list.map((position)=>{
+              {identitylist.map((position)=>{
                 return<><span>{position}</span><br/></>
               })}
             </div>
@@ -65,4 +59,8 @@ export class App extends Component {
   }
 }
 
-export default connect()(App)
+let mapStateToProps = (state)=>{
+  return {state}
+}
+
+export default connect(mapStateToProps)(App)

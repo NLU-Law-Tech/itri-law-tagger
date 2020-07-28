@@ -1,7 +1,8 @@
 const initialState = {
   currentSelectWord: {},
   unlabelDoc: '',
-  unlabelDocId: ''
+  unlabelDocId: '',
+  identitylist:[]
 }
 
 function Reducer(state = initialState, action) {
@@ -19,6 +20,11 @@ function Reducer(state = initialState, action) {
       return Object.assign({}, state, {
         unlabelDocId:action.unlabelDocId,
         unlabelDoc:action.unlabelDoc
+      })
+    
+    case "TAG_GET_IDENTITY_LIST_SUCCESS":
+      return Object.assign({},state,{
+        identitylist:action.identitylist
       })
       
     default:
