@@ -81,7 +81,7 @@ export class index extends Component {
 
         return {
             currentKeyDown: MainReducer.currentKeyDown,
-            cj_text_hl: state.hightLightCJText(state.cj_text, defendants),
+            cj_text_hl: state.hightLightCJText(state.cj_text, defendants.concat(TagReducer.identitylist)),
             // cj_text_hl: state.hightLightCJText(state.cj_text, [currentSelectDefendant]),
         }
     }
