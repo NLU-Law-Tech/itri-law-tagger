@@ -95,6 +95,9 @@ export const getUnlabelDoc = () => {
                     unlabelDoc: judgement,
                 })
             })
+            .catch((err)=>{
+                console.log(err)
+            })
     }
 }
 
