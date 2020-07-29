@@ -96,6 +96,7 @@ export const getUnlabelDoc = () => {
                 })
             })
             .catch((error)=>{
+                console.log(error.response)
                 console.log(error)
                 if(error.status === 403){
                     alert("無可標記文件")
