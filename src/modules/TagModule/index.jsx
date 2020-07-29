@@ -10,8 +10,9 @@ const TagBlockFront = styled.pre`
     top:0px;
     font-size:${(props) => props.fontSize};
     & > mark{
-        padding: 0px;
-        background-color: yellow;
+        padding: 0px !important;
+        background-color:${(props) => props.markColor};
+        opacity:${(props) => props.opacity === undefined?'0.5':props.opacity};
     }
 `
 
@@ -49,17 +50,17 @@ export class index extends Component {
         window.location.reload()
     }
 
-    delDocOnclick = ()=>{
-        let { dispatch }  = this.props,
-        { TagReducer={} } = this.props.state,
-        { unlabelDocId='' } = TagReducer
+    delDocOnclick = () => {
+        let { dispatch } = this.props,
+            { TagReducer = {} } = this.props.state,
+            { unlabelDocId = '' } = TagReducer
         dispatch(delDoc(unlabelDocId))
     }
 
     static getDerivedStateFromProps(props, state) {
         let { TagReducer = {}, MainReducer = {}, SideMenuReducer = {} } = props.state,
             // eslint-disable-next-line
-            { currentSelectDefendant = '', defendants } = SideMenuReducer
+            { currentSelectDefendant = '', adefendants } = SideMenuReducer
         // { dispatch } = props
         // console.log(TagReducer)
         if (state.cj_text !== TagReducer.unlabelDoc) {
@@ -81,7 +82,7 @@ export class index extends Component {
 
         return {
             currentKeyDown: MainReducer.currentKeyDown,
-            cj_text_hl: state.hightLightCJText(state.cj_text, defendants.concat(TagReducer.identitylist)),
+            // cj_text_hl: state.hightLightCJText(state.cj_text, defendants.concat(TagReducer.identitylist)),
             // cj_text_hl: state.hightLightCJText(state.cj_text, [currentSelectDefendant]),
         }
     }
@@ -168,7 +169,14 @@ export class index extends Component {
     }
 
     render() {
-        let { cj_text, cj_text_hl, fontSize } = this.state
+        let { cj_text, fontSize } = this.state
+        let { SideMenuReducer = {}, TagReducer = {} } = this.props.state,
+            { defendants } = SideMenuReducer,
+            { identitylist, positionList } = TagReducer
+        let cj_text_defendants_hl = this.hightLightCJText(cj_text, defendants)
+        let cj_text_identitylist_hl = this.hightLightCJText(cj_text, identitylist)
+        let cj_text_positionList_hl = this.hightLightCJText(cj_text, positionList)
+        let cj_text_law_hl = this.hightLightCJText(cj_text, ['條','項','款'])
         // console.log(cj_text_hl)
         return (
             <div>
@@ -186,12 +194,47 @@ export class index extends Component {
                     <small>載入中</small>
                     :
                     <div style={{ position: 'relative', zIndex: 0 }}>
+                        {/* 被告HL */}
                         <TagBlockFront
                             fontSize={`${fontSize}px`}
+                            markColor={'yellow'}
+                            opacity={'0.5'}
                             dangerouslySetInnerHTML={{
-                                __html: cj_text_hl
+                                __html: cj_text_defendants_hl
                             }}
                         />
+
+                        {/* 身份HL */}
+                        <TagBlockFront
+                            fontSize={`${fontSize}px`}
+                            markColor={'cyan'}
+                            opacity={'0.25'}
+                            dangerouslySetInnerHTML={{
+                                __html: cj_text_identitylist_hl
+                            }}
+                        />
+
+                        {/* 職稱HL */}
+                        <TagBlockFront
+                            fontSize={`${fontSize}px`}
+                            markColor={'green'}
+                            opacity={'0.25'}
+                            dangerouslySetInnerHTML={{
+                                __html: cj_text_positionList_hl
+                            }}
+                        />
+
+                         {/* 法條HL */}
+                         <TagBlockFront
+                            fontSize={`${fontSize}px`}
+                            markColor={'purple'}
+                            opacity={'0.15'}
+                            dangerouslySetInnerHTML={{
+                                __html: cj_text_law_hl
+                            }}
+                        />
+
+                        {/* Tagging onMouseUp */}
                         <TagBlockRear
                             key={JSON.stringify(this.props)}
                             fontSize={`${fontSize}px`}

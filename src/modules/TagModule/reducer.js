@@ -2,13 +2,14 @@ const initialState = {
   currentSelectWord: {},
   unlabelDoc: '',
   unlabelDocId: '',
-  identitylist:[]
+  identitylist: [],
+  positionList: []
 }
 
 function Reducer(state = initialState, action) {
   switch (action.type) {
     case "INIT_APP":
-        return Object.assign({},initialState)
+      return Object.assign({}, initialState)
 
     case 'TAG_CURRENT_SELECT_WORD':
 
@@ -18,15 +19,20 @@ function Reducer(state = initialState, action) {
 
     case "TAG_GET_UNLABEL_DOC_SUCCESS":
       return Object.assign({}, state, {
-        unlabelDocId:action.unlabelDocId,
-        unlabelDoc:action.unlabelDoc
+        unlabelDocId: action.unlabelDocId,
+        unlabelDoc: action.unlabelDoc
       })
-    
+
+    case "TAG_GET_POSITION_LIST_SUCCESS":
+      return Object.assign({}, state, {
+        positionList: action.positionList
+      })
+
     case "TAG_GET_IDENTITY_LIST_SUCCESS":
-      return Object.assign({},state,{
-        identitylist:action.identitylist
+      return Object.assign({}, state, {
+        identitylist: action.identitylist
       })
-      
+
     default:
       return state
   }

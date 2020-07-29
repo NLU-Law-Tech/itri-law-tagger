@@ -7,6 +7,28 @@ if (process.env.NODE_ENV !== 'production') {
 }
 console.log('API_SERVER:',API_SERVER)
 
+export const getPostionList = ()=>{
+    return (dispatch)=>{
+        dispatch({
+            type:'TAG_GET_POSITION_LIST_START'
+        })
+        axios.get('https://gist.githubusercontent.com/p208p2002/c4a2094f756eba2fa0f132480bf387dd/raw/7c6438869fefcbc9f1ddba3db9a70d15522aa18d/position_list.txt')
+        .then((res)=>{
+            // console.log(res.data.split("\n"))
+            dispatch({
+                type:'TAG_GET_POSITION_LIST_SUCCESS',
+                positionList:Array.from(new Set(res.data.split("\n")))
+            })
+        })
+        .catch((res)=>{
+            console.log(res)
+            dispatch({
+                type:'TAG_GET_POSITION_LIST_FAIL'
+            })
+        })
+    }
+}
+
 export const getIdentityList = ()=>{
     return (dispatch)=>{
         dispatch({
@@ -18,7 +40,7 @@ export const getIdentityList = ()=>{
             // console.log(res.data.split("\n"))
             dispatch({
                 type:'TAG_GET_IDENTITY_LIST_SUCCESS',
-                identitylist:res.data.split("\n")
+                identitylist:Array.from(new Set(res.data.split("\n")))
             })
         })
         .catch((res)=>{
