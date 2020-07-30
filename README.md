@@ -1,5 +1,8 @@
 # ITRI LAW-TAGGER
 法律AI訓練、測試資料，答案標註系統
+
+[使用者指南](https://hackmd.io/WeJJaoqrTKWH7d0HF5PRNQ)
+
 ### Backend
 [seanbbear/itri_web_backend](https://github.com/seanbbear/itri_web_backend)
 ## Feature
