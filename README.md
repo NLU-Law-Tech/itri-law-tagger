@@ -14,7 +14,7 @@
 ## Demo
 ![](https://raw.githubusercontent.com/p208p2002/itri-law-tagger/master/demo.gif)
 ## Ouput Example
-```
+```json
 {
     "林家珍": {
         "單位": [],
