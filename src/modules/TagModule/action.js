@@ -12,7 +12,7 @@ export const getPostionList = ()=>{
         dispatch({
             type:'TAG_GET_POSITION_LIST_START'
         })
-        axios.get('https://gist.githubusercontent.com/p208p2002/c4a2094f756eba2fa0f132480bf387dd/raw/3f10e1356db29ffec981bddac2e5570f833639f6/position_list.txt')
+        axios.get('https://gist.githubusercontent.com/p208p2002/c4a2094f756eba2fa0f132480bf387dd/raw/position_list.txt')
         .then((res)=>{
             // console.log(res.data.split("\n"))
             dispatch({
@@ -35,7 +35,7 @@ export const getIdentityList = ()=>{
             type:'TAG_GET_IDENTITY_LIST_START'
         })
         //https://gist.github.com/p208p2002/cbc21d9a3dd270ad95a5b209e62c1cac
-        axios.get('https://gist.githubusercontent.com/p208p2002/cbc21d9a3dd270ad95a5b209e62c1cac/raw/29cdf270fa5b9d39f9033fd13c19ec9da5371e33/identity_list.txt')
+        axios.get('https://gist.githubusercontent.com/p208p2002/cbc21d9a3dd270ad95a5b209e62c1cac/raw/identity_list.txt')
         .then((res)=>{
             // console.log(res.data.split("\n"))
             dispatch({
