@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc, delDoc } from './action'
+import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc, delDoc, getReLableDoc } from './action'
 
 const TagBlockFront = styled.pre`
     z-index:2;
@@ -36,10 +36,10 @@ export class index extends Component {
     }
 
     componentDidMount() {
-        this.requestUnlabelDoc()
+        // this.requestUnlabelDoc()
+        this.requestLabeledDoc()
         //
         this.setState({
-            requestUnlabelDoc: this.requestUnlabelDoc,
             saveLabeldData: this.saveLabeldData,
             getNextDoc: this.getNextDoc,
             hightLightCJText: this.hightLightCJText
@@ -112,6 +112,11 @@ export class index extends Component {
             alert("saveLabeldData error,rule not pass")
             console.warn("saveLabeldData error,rule not pass", unlabelDocId, defendantsTagInfo)
         }
+    }
+
+    requestLabeledDoc = () =>{
+        let { dispatch } = this.props
+        dispatch(getReLableDoc())
     }
 
     requestUnlabelDoc = () => {

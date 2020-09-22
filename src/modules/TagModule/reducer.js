@@ -3,7 +3,8 @@ const initialState = {
   unlabelDoc: '',
   unlabelDocId: '',
   identitylist: [],
-  positionList: []
+  positionList: [],
+  ready:false
 }
 
 function Reducer(state = initialState, action) {
@@ -17,10 +18,18 @@ function Reducer(state = initialState, action) {
         currentSelectWord: action.currentSelectWord
       })
 
+    case "TAG_GET_RELABEL_DOC_SUCCESS":
+      return Object.assign({}, state, {
+        unlabelDocId: action.unlabelDocId,
+        unlabelDoc: action.unlabelDoc,
+        ready:true
+      })
+
     case "TAG_GET_UNLABEL_DOC_SUCCESS":
       return Object.assign({}, state, {
         unlabelDocId: action.unlabelDocId,
-        unlabelDoc: action.unlabelDoc
+        unlabelDoc: action.unlabelDoc,
+        ready:true
       })
 
     case "TAG_GET_POSITION_LIST_SUCCESS":
