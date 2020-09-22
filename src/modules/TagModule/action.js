@@ -85,7 +85,7 @@ export const getReLableDoc = () => {
         dispatch({ type: "TAG_GET_RELABEL_DOC_START" })
         axios.get(API_SERVER + "/relabel_doc")
             .then((res) => {
-                let { verdict, content_id = '',labeled_data=[] } = res.data
+                let { verdict, content_id = '', labeled_data = [] } = res.data
                 console.log(res.data)
                 verdict = JSON.parse(verdict)
                 let { judgement } = verdict
@@ -97,60 +97,60 @@ export const getReLableDoc = () => {
                 })
 
                 let defendants = []
-                labeled_data.forEach((ld)=>{
+                labeled_data.forEach((ld) => {
                     let { name } = ld
                     defendants.push(name.content)
                 })
                 dispatch(setDefendants(defendants))
 
                 let tagInfo = {}
-                labeled_data.forEach((ld)=>{
+                labeled_data.forEach((ld) => {
                     let { name, identities, laws, positions, units } = ld
                     // val tag_start tag_end
-                    identities = identities.map((_id)=>{
-                        return{
-                            val:_id.content,
-                            tag_start:_id.start,
-                            tag_end:_id.end
+                    identities = identities.map((_id) => {
+                        return {
+                            val: _id.content,
+                            tag_start: _id.start,
+                            tag_end: _id.end
                         }
                     })
 
-                    laws = laws.map((_id)=>{
-                        return{
-                            val:_id.content,
-                            tag_start:_id.start,
-                            tag_end:_id.end
+                    laws = laws.map((_id) => {
+                        return {
+                            val: _id.content,
+                            tag_start: _id.start,
+                            tag_end: _id.end
                         }
                     })
 
-                    positions = positions.map((_id)=>{
-                        return{
-                            val:_id.content,
-                            tag_start:_id.start,
-                            tag_end:_id.end
+                    positions = positions.map((_id) => {
+                        return {
+                            val: _id.content,
+                            tag_start: _id.start,
+                            tag_end: _id.end
                         }
                     })
 
-                    units = units.map((_id)=>{
-                        return{
-                            val:_id.content,
-                            tag_start:_id.start,
-                            tag_end:_id.end
+                    units = units.map((_id) => {
+                        return {
+                            val: _id.content,
+                            tag_start: _id.start,
+                            tag_end: _id.end
                         }
                     })
 
 
                     tagInfo[`${name.content}`] = {}
-                    tagInfo[`${name.content}`]["單位"]=units
-                    tagInfo[`${name.content}`]["職稱"]=positions
-                    tagInfo[`${name.content}`]["身份"]=identities
-                    tagInfo[`${name.content}`]["法條"]=laws
+                    tagInfo[`${name.content}`]["單位"] = units
+                    tagInfo[`${name.content}`]["職稱"] = positions
+                    tagInfo[`${name.content}`]["身份"] = identities
+                    tagInfo[`${name.content}`]["法條"] = laws
 
                     console.log(tagInfo)
-                    
+
                 })
                 dispatch(updateDefendantsTagInfo(tagInfo))
-                
+
             })
             .catch((error) => {
                 // console.log(error.response)
@@ -243,15 +243,32 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
         }
         console.log(apiObject)
 
-        axios.post(API_SERVER + "/labeled_data", apiObject)
-            .then((res) => {
-                console.log(res)
-                dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
-                alert('已儲存')
-            })
-            .catch((error) => {
-                console.log(error)
-                alert('儲存失敗')
-            })
+        const parseUrl = require("parse-url")
+        if (parseUrl(window.location.href).search === 'relabel=true') {
+            axios.post(API_SERVER + "/relabeled_data", apiObject)
+                .then((res) => {
+                    console.log(res)
+                    dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
+                    alert('已儲存')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    alert('儲存失敗')
+                })
+        }
+        else {
+            axios.post(API_SERVER + "/labeled_data", apiObject)
+                .then((res) => {
+                    console.log(res)
+                    dispatch({ type: "TAG_SAVE_LABELED_DATA_SUCCESS" })
+                    alert('已儲存')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    alert('儲存失敗')
+                })
+
+        }
+
     }
 }

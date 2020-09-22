@@ -36,9 +36,14 @@ export class index extends Component {
     }
 
     componentDidMount() {
-        // this.requestUnlabelDoc()
-        this.requestLabeledDoc()
-        //
+        const parseUrl = require("parse-url")
+        if(parseUrl(window.location.href).search === 'relabel=true'){
+            this.requestLabeledDoc()
+        }
+        else{
+            this.requestUnlabelDoc()
+        }
+
         this.setState({
             saveLabeldData: this.saveLabeldData,
             getNextDoc: this.getNextDoc,
