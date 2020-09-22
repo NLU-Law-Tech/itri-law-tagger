@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateDefendantsTagInfo } from './action'
+// import { updateDefendantsTagInfo } from './action'
 
 let ACTION_TAGS = ['單位', '職稱', '身份', '法條']
 let HOT_KEYS = ['q','w','e','r']
@@ -11,7 +11,8 @@ export class tagInfo extends Component {
             currentSelectWord: undefined,
             defendants: [],
             defendantsTagInfo: {},
-            tagAction: ACTION_TAGS[0]
+            tagAction: ACTION_TAGS[0],
+            // firstUpdate:true
         }
     }
 
@@ -22,7 +23,7 @@ export class tagInfo extends Component {
             { currentKeyDown } = MainReducer
         
         let { tagAction } = state
-        let { dispatch } = props
+        // let { dispatch } = props
 
         // 被告變動
         let defendantsTagInfo = state.defendantsTagInfo
@@ -67,17 +68,27 @@ export class tagInfo extends Component {
         }
 
         //save defendantsTagInfo
-        if(state.defendantsTagInfo !== SideMenuReducer.defendantsTagInfo){
-            dispatch(updateDefendantsTagInfo(defendantsTagInfo))
-        }
-        
+        // if(state.firstUpdate){
+        //     return {
+        //         tagAction,
+        //         currentKeyDown,
+        //         defendants: [...defendants],
+        //         currentSelectWord,
+        //         defendantsTagInfo:SideMenuReducer.defendantsTagInfo,
+        //         _props: props
+        //     }
+        // }
+        // if(state.defendantsTagInfo !== SideMenuReducer.defendantsTagInfo){
+        //     dispatch(updateDefendantsTagInfo(SideMenuReducer.defendantsTagInfo))
+        // }
+
         
         return {
             tagAction,
             currentKeyDown,
             defendants: [...defendants],
             currentSelectWord,
-            defendantsTagInfo,
+            defendantsTagInfo:SideMenuReducer.defendantsTagInfo,
             _props: props
         }
     }
