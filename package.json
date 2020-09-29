@@ -1,6 +1,7 @@
 {
   "name": "itri-law-tagger",
-  "version": "0.1.0",
+  "homepage": "./",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -17,7 +18,16 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.1"
   },
+  "devDependencies": {
+    "electron": "^10.1.2",
+    "electron-builder": "^22.8.1"
+  },
+  "main": "main.js",
   "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "e-build": "set REACT_APP_LOCAL_MODE=TRUE&&rm -rf app-build&&npm run build&&mv build app-build",
+    "e-start": "electron .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -37,5 +47,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "itir.law-tagger",
+    "mac": {
+      "category": "itir.law-tagger"
+    },
+    "extends": null,
+    "files":[
+      "!node_modules${/*}",
+      "!src${/*}",
+      "!dist${/*}"
+    ],
+    "nsis":{
+      "oneClick":false
+    }
   }
 }
