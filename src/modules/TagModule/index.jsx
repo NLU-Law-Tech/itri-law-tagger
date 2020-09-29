@@ -105,7 +105,7 @@ export class index extends Component {
                 state.getNextDoc()
                 // window.location.reload()
             }
-            if (MainReducer.currentKeyDown === 'e') {
+            if (MainReducer.currentKeyDown === 't') {
                 state.exportLabeledDoc()
             }
         }
@@ -232,7 +232,7 @@ export class index extends Component {
                 <hr />
                 <button className="mr-1" onClick={this.saveLabeldData}>儲存(s)</button>
                 <button className="mr-1" onClick={this.getNextDoc}>下一篇(n)</button>
-                <button className="mr-1" onClick={this.exportLabeledDoc}>匯出本篇標註結果(e)</button>
+                <button className="mr-1" onClick={this.exportLabeledDoc}>匯出本篇標註結果(t)</button>
                 <button className="float-right btn-danger" onClick={this.delDocOnclick}>撤銷本篇</button>
                 <hr />
                 {cj_text === '' ?
