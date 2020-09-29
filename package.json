@@ -1,7 +1,7 @@
 {
   "name": "itri-law-tagger",
   "homepage": "./",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
