@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc, delDoc, getReLableDoc } from './action'
+import { saveLabeledData as saveLabledDataAction, submitTag, getUnlabelDoc, delDoc, getReLableDoc, downloadLabeledDoc } from './action'
+import LocalUpload from './localUpload'
 
 const TagBlockFront = styled.pre`
     z-index:2;
@@ -12,7 +13,7 @@ const TagBlockFront = styled.pre`
     & > mark{
         padding: 0px !important;
         background-color:${(props) => props.markColor};
-        opacity:${(props) => props.opacity === undefined?'0.5':props.opacity};
+        opacity:${(props) => props.opacity === undefined ? '0.5' : props.opacity};
     }
 `
 
@@ -33,21 +34,33 @@ export class index extends Component {
             cj_text_hl: '',
             hightLightCJText: () => { }
         }
+        this.inputOpenFileRef = React.createRef()
+
     }
+
 
     componentDidMount() {
         const parseUrl = require("parse-url")
-        if(parseUrl(window.location.href).search === 'relabel=true'){
-            this.requestLabeledDoc()
+        let { REACT_APP_LOCAL_MODE = 'FALSE' } = process.env
+        if (REACT_APP_LOCAL_MODE === 'FALSE') {
+            if (parseUrl(window.location.href).search === 'relabel=true') {
+                this.requestLabeledDoc()
+            }
+            else {
+                this.requestUnlabelDoc()
+            }
         }
-        else{
-            this.requestUnlabelDoc()
+        else {
+            // this.inputOpenFileRef.current.click()
         }
+
+
 
         this.setState({
             saveLabeldData: this.saveLabeldData,
             getNextDoc: this.getNextDoc,
-            hightLightCJText: this.hightLightCJText
+            hightLightCJText: this.hightLightCJText,
+            exportLabeledDoc: this.exportLabeledDoc
         })
     }
 
@@ -60,6 +73,15 @@ export class index extends Component {
             { TagReducer = {} } = this.props.state,
             { unlabelDocId = '' } = TagReducer
         dispatch(delDoc(unlabelDocId))
+    }
+
+    exportLabeledDoc = () => {
+        let { dispatch } = this.props
+        let { SideMenuReducer,TagReducer } = this.props.state,
+            { defendantsTagInfo } = SideMenuReducer,
+            { unlabelDocId = '',unlabelDoc } = TagReducer
+        
+        dispatch(downloadLabeledDoc(unlabelDocId,unlabelDoc,defendantsTagInfo))
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -82,6 +104,9 @@ export class index extends Component {
             if (MainReducer.currentKeyDown === 'n') {
                 state.getNextDoc()
                 // window.location.reload()
+            }
+            if (MainReducer.currentKeyDown === 'e') {
+                state.exportLabeledDoc()
             }
         }
 
@@ -119,7 +144,7 @@ export class index extends Component {
         }
     }
 
-    requestLabeledDoc = () =>{
+    requestLabeledDoc = () => {
         let { dispatch } = this.props
         dispatch(getReLableDoc())
     }
@@ -186,8 +211,17 @@ export class index extends Component {
         let cj_text_defendants_hl = this.hightLightCJText(cj_text, defendants)
         let cj_text_identitylist_hl = this.hightLightCJText(cj_text, identitylist)
         let cj_text_positionList_hl = this.hightLightCJText(cj_text, positionList)
-        let cj_text_law_hl = this.hightLightCJText(cj_text, ['條','項','款'])
+        let cj_text_law_hl = this.hightLightCJText(cj_text, ['條', '項', '款'])
         // console.log(cj_text_hl)
+
+        let { REACT_APP_LOCAL_MODE = 'FALSE' } = process.env
+        if (REACT_APP_LOCAL_MODE === 'TRUE' && cj_text === '') {
+            return (
+                <>
+                    <LocalUpload />
+                </>
+            )
+        }
         return (
             <div>
                 <div>
@@ -197,7 +231,8 @@ export class index extends Component {
                 </div>
                 <hr />
                 <button className="mr-1" onClick={this.saveLabeldData}>儲存(s)</button>
-                <button onClick={this.getNextDoc}>下一篇(n)</button>
+                <button className="mr-1" onClick={this.getNextDoc}>下一篇(n)</button>
+                <button className="mr-1" onClick={this.exportLabeledDoc}>匯出本篇標註結果(e)</button>
                 <button className="float-right btn-danger" onClick={this.delDocOnclick}>撤銷本篇</button>
                 <hr />
                 {cj_text === '' ?
@@ -234,8 +269,8 @@ export class index extends Component {
                             }}
                         />
 
-                         {/* 法條HL */}
-                         <TagBlockFront
+                        {/* 法條HL */}
+                        <TagBlockFront
                             fontSize={`${fontSize}px`}
                             markColor={'purple'}
                             opacity={'0.15'}

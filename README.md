@@ -5,6 +5,12 @@
 
 ### Backend
 [seanbbear/itri_web_backend](https://github.com/seanbbear/itri_web_backend)
+
+## ENV mode
+```
+REACT_APP_LOCAL_MODE = [TRUE|FALSE] # 單機標註模式
+```
+
 ## Feature
 - 拖移標記
 - 關鍵字高亮

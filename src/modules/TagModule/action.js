@@ -4,7 +4,10 @@ import { setDefendants, updateDefendantsTagInfo } from '../SideMenuModule/action
 const axios = require('axios');
 
 let API_SERVER = ''
-if (process.env.NODE_ENV !== 'production') {
+let { REACT_APP_LOCAL_MODE = 'FALSE' } = process.env
+
+
+if (process.env.NODE_ENV !== 'production' && REACT_APP_LOCAL_MODE === 'FALSE') {
     API_SERVER = 'http://140.120.13.242:15004'
 }
 console.log('API_SERVER:', API_SERVER)
@@ -270,5 +273,60 @@ export const saveLabeledData = (unlabelDocId, defendantsTagInfo) => {
 
         }
 
+    }
+}
+
+
+export const downloadLabeledDoc = (unlabelDocId, unlabelDoc, defendantsTagInfo) => {
+    console.log(unlabelDocId, defendantsTagInfo)
+    let defendantsTagInfoKeys = Object.keys(defendantsTagInfo)
+
+    let api_labeled_data = []
+    defendantsTagInfoKeys.forEach((key) => {
+        console.log(defendantsTagInfo[`${key}`])
+
+        // let ACTION_TAGS = ['單位', '職稱', '身份', '法條']
+        let units = _changeObjectKey2Api(defendantsTagInfo[`${key}`][`${'單位'}`])
+        let positions = _changeObjectKey2Api(defendantsTagInfo[`${key}`][`${'職稱'}`])
+        let identities = _changeObjectKey2Api(defendantsTagInfo[`${key}`][`${'身份'}`])
+        let laws = _changeObjectKey2Api(defendantsTagInfo[`${key}`][`${'法條'}`])
+
+        api_labeled_data.push({
+            name: {
+                content: key,
+                start: 0,
+                end: 0
+            },
+            units,
+            positions,
+            identities,
+            laws
+        })
+    })
+
+    let apiObject = {
+        doc_id: unlabelDocId,
+        full_doc: unlabelDoc,
+        labeled_data: api_labeled_data
+    }
+    console.log(apiObject)
+
+    const downloadFile = async (fine_name,myData) => {
+        const fileName = fine_name.replace(/\..{1,6}$/,"");
+        const json = JSON.stringify(myData);
+        const blob = new Blob([json], { type: 'application/json' });
+        const href = await URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = href;
+        link.download = fileName + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    downloadFile(unlabelDocId,apiObject)
+
+    return {
+        type: 'TAG_DOWNLOAD_LABLE_DOC'
     }
 }
