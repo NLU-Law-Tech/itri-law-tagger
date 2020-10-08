@@ -3,6 +3,11 @@
 
 [使用者指南](https://hackmd.io/WeJJaoqrTKWH7d0HF5PRNQ)
 
+## Note
+根據[使用者指南](https://hackmd.io/WeJJaoqrTKWH7d0HF5PRNQ)要求標註法條細項，需搭配工具還原標註法條
+
+[標註法條還原工具](https://github.com/NLU-Law-Tech/itri-law-tagger-patch)
+
 ### Backend
 [seanbbear/itri_web_backend](https://github.com/seanbbear/itri_web_backend)
 
